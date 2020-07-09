@@ -1,0 +1,113 @@
+Funcion ProdVector(ref V:Arreglo[CMAX] de enteros, Val tope): Entero
+	Si tope > 1 entonces
+		Prodvector <-- V[tope]*ProdVector(v, tope-1)
+	sino
+		ProdVector <-- V[tope]
+	Fsi
+FFunción
+
+Proced InvertirArr(Ref A1,A2: arreglo[CMAX] de enteros, Val tope: entero)
+	Si Tope > 1 entonces
+		InvertirArr(a1,a2,tope-1)
+		a2[tope] <-- a1[tope]
+	sino
+		a2[tope] <-- a1[tope]
+	Fsi
+Fproced
+
+precond{N=tope}
+proced imprimir (Ref A: Arreglo[MAX] de enteros, val tope:entero, Val N:entero)
+	Si N < tope entonces
+		elemvector(A,tope, N)
+		imprimir(A, tope, N+1)
+	sino
+		elemvector(A, tope, N)
+	Fsi
+Fproced
+
+Proced promedio(Ref A:Arreglo[MAX] de enteros, Val tope: entero, Ref Promedio: real, ref suma: entero)
+	Si 
+
+			
+Función Palíndromo (Ref A:Arreglo[MAX] de caracteres, val prim, tope: entero, val x, y: caracteres): lógico
+	si prim <= tope entonces
+		si x=y entonces
+			palindromo <-- palindromo(A,prim+1, tope-1, A[prim], A[tope])
+		sino
+			Palindromo <-- falso
+	sino
+		Si x=y entonces
+			palindromo <-- verdadero
+		Sino
+			palindromo <- falso
+		Fsi
+	Fsi
+FFuncion
+Funcion Arreglosiguales(Ref A,b: arreglo[MAX] de enteros, val tope: enteros): lógico
+	Si Tope > 1 entonces
+		Si A[Tope]=B[tope] entonces
+			Arreglosiguales <-- Arreglosiguales(A,B,tope-1)
+		Sino
+			Arreglosiguales <-- falso
+		Fsi
+	Sino
+		Si A[Tope] = B[tope] entonces
+			Arreglosiguales <-- verdadero
+		sino
+			Arreglosiguales <-- falso
+		Fsi
+	Fsi
+FFunción
+
+proced MaximosMat(Ref M:Mat[FMAX][CMAX] de enteros, Ref A:Arreglo[MAX] de enteros, val TopeF, 
+							     TopeC: entero, ref Tope: entero)
+	Si topef > 1 entonces
+		Maximosmat(mat, topef-1,topec)
+		Max <--MaximoMat(mat, topef, topec, Max)
+		tope <-- tope + 1
+		A[tope] <-- Max
+	sino
+		Max <-- MaximoMat(mat, 1, topec)
+		tope <-- 1
+		A[tope] <-- Max
+	Fsi
+		
+
+Función MatSimétrica(Ref M: mat[MAX][MAX] de enteros, val Topef,Topec: enteros): lógico
+	si topef > 2 entonces
+		MatSimétrica<-- MatSimétrica(m, topef-1, topec-1)
+		m <-- M[Topef][topec-1]
+		a <-- M[Topec-1][Topef]
+		si a = m entonces
+			si topec > 2 entonces
+				matsimétrica <-- matsimetrica(m, topef, topec-1)
+			sino
+				Matsimétrica <-- verdadero
+			Fsi
+		sino
+			MatSimétrica <-- falso
+		Fsi
+	sino
+		m <-- M[topef][topec-1]
+		a <-- M[Topec-1][topef]
+		si m=a entonces
+			matsimétrica <-- verdadero
+		sino
+			matsimétrica <-- falso
+		fsi
+	fsi
+FFunción
+
+
+funcion maxtrianginf()
+ 	si topef > 2 y topec > 2 entonces
+		maxtrianginf <-- maxtrianginf(m, topef-1, topec-1)
+		si topec > 2 entonces
+			m2 <-m1
+			maxtrianginf <--- maxtrianginf(m,topef, topec-1)
+			m1 <-- M[topef][topec-1]
+		sino
+			
+	sino
+		m1 <-- M[topef][topec-1]
+	fsi

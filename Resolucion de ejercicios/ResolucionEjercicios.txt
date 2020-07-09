@@ -1,0 +1,891 @@
+Ejercicio 2
+proced OrdenInverso(Ref S:Tsecuencia, Ref P:Tpila, Ref error: Lógico)
+	Var local: x: caracter
+	Error <-- Falso
+	Si No Sfin(S) entonces
+		Sleerprim(S, x)
+	Sino
+		Error <-- Verdadero
+		Mostrar("La secuencia no posee caracteres")
+	Fsi
+	Mientras No Sfin(S) y No Error hacer
+		Si NO Pllena(P) entonces
+			Pponer(P, x)
+			Sleersig(P, x)
+		Sino
+			error <-- Verdadero
+		Fsi
+	Fmientras
+	Si No Error entonces
+		Mientras NO Pvacia(P) hacer
+			Psacar(P, x)
+			Mostrar(x)
+		Fmientras
+	Sino
+		Mostrar("Demasiados elementos en la secuencia")
+	Fsi
+FProced
+Prueba de escritorio
+Secuencia             x     Pila         Error    Mostrar: p, 0, n, m, a
+amn0p|                a      a           falso
+		      m      m
+		      n      n
+                      0      0
+		      p      p?
+Caso en el que pila se llene:
+Secuencia             x      Pila        Error    Mostrar: Demasiados elementos en la secuencia
+mno|                  m      m           falso
+		      n      se lleno    verdadero
+Caso no hay elementos en la secuencia
+Secuencia             X      Pila        Error    Mostrar: La secuencia no posee caracteres
+|                                        Falso
+					 Verdadero
+Ejercicio 3
+Proced InformarReverso(Ref Num: Entero, Ref Error: Lógico)
+	Var Local: P1, P2: Tpila; x: entero
+	Pcrear(P1)
+	Pcrear(P2)
+	Error <-- falso
+	Mientras Num != 0 y No Error hacer
+		x <-- Num Resto 10
+		Num <-- Num Div 10
+		Si No Pllena(P1) Entonces
+			PPoner(P1, x)
+		Sino
+			Error <-- verdadero
+		Fsi
+	Fmientras
+	Si No Error entonces
+		Mientras No Pvacía(P1) y No Error hacer
+			Psacar(P1, x)
+			Si No Pllena(P2) entonces
+				Pponer(P2, x)
+			Sino
+				Error <-- Verdadero
+			Fsi
+		Fmientras
+		Si No Error Entonces
+			Mientras No Pvacia(P2) hacer
+				Psacar(P2, x)
+				Mostrar(x)
+			Fmientras
+		Sino
+			Mostrar("Demasiados elementos en la pila, número muy grande")
+		Fsi
+	Sino
+		Mostrar("Numero muy grande")
+	Fsi
+Fproced
+
+Prueba de escritorio
+Num         x        Pila1      Pila2         Error           Mostrar: 6, 5, 4, 3
+(Caso donde funciona correctamente)
+3456        6        6          3             Falso          
+345         5        5          4
+34          4        4          5
+3           3        3?         6?
+0
+(Caso en el que Num es demasiado largo)
+33333       3        3                        Falso           Mostrar: Numero muy grande
+3333        3        Se lleno                 Verdadero
+333
+(Caso en el que el que pila 2 se llena)
+23          3        3          2             Falso           Mostrar: Demasiados elementos en la pila, 
+2           2        2?         Se lleno      Verdadero                    número muy grande
+0
+
+Ejercicio 5
+Proced Palíndromo(Ref Se:tSecuencia, Ref Es: Lógico)
+	Var Local: x, y: caracter; P: Tpila
+	Pcrear(P)
+	Es <-- verdadero
+	Si No Sfin(Se) entonces
+		Sleerprim(Se, x)
+		Si no Pllena(P) entonces
+			Pponer(p, x)
+		Sino
+			Es <-- Falso
+		Fsi
+	Sino 
+		Es <-- Falso
+	Fsi
+	Mientras No Sfin(Se) y Es hacer
+		SLeerSig(Se, x)
+		Si No Pllena(P) entonces
+			Pponer(P, x)
+		Sino
+			Es <-- Falso
+		Fsi
+	Fmientras
+	Si No Es y No Sfin(Se) entonces
+		Mostrar("Demasiadas letras")
+	Sino
+		Si No es Y Sfin(Se) entonces
+			Mostrar("secuencia vacía")
+		Sino 
+		Si No Sfin(Se) y no Pvacía(P) entonces
+			SleerPrim(Se, x)
+			Psacar(P, y)
+			Si x != y entonces
+				Es <-- falso
+			Fsi
+		Sino
+			Es <-- Falso
+			Mostrar("No hay elementos en la secuencia o en la pila")
+		Fsi
+		Mientras No Sfin(Se) y No Pvacía(P) y Es hacer
+			Si x = y entonces
+				Sleersig(Se, x)
+				PSacar(P, y)
+			Sino
+				Es <-- falso
+			Fsi
+		Fmientras
+		Si No Es Entonces
+			Mostrar("Cadena no es palíndromo")
+		Sino
+			Mostrar("Es palíndromo")
+		Fsi
+		Fsi
+	Fsi
+FProced
+(Prueba de escritorio a mano)
+Ejercicio 6
+a) 
+Proced ParentesisBalanceados(Ref Se:Tsecuencia)
+	Var local: X:caracter; P:tpila; existe, error: Lógico
+	Pcrear(P)
+	Existe <-- falso
+	Error <-- falso
+	Si No Sfin(Se) entonces
+		Sleerprim(Se, x)
+		Si x = ")" entonces
+			Pponer(P, x)
+		Fsi
+		Mientras No Sfin(Se) y No Pllena(P) hacer
+			Sleersig(Se, x)
+			Si x = ")" entonces
+				Pponer(P, x)
+			Fsi
+		Fmientras
+		Si No Sfin(Se) entonces
+			Mostrar("Secuencia demasiado larga")
+		Sino
+			Sleerprim(Se, x)
+			Si x = "(" y No Pvacía(P) entonces
+				Psacar(P, x)
+			Sino
+				Error <-- verdadero
+				Mostrar ("desbalance")
+			Fsi
+			Mientras No Sfin(Se) y No Pvacia(P) hacer
+				Sleersig(Se, x)
+				Si x = "(" entonces
+					Psacar(P, x)
+				Fsi
+			Fmientras
+			Si No Pvacia(P) entonces
+				Mostrar("Secuencia desbalanceada, faltan paréntesis de apertura")
+			Sino
+				si No Sfin(Se) entonces
+					Mientras No Sfin(Se) y No existe hacer
+						SleerSig(Se, x)
+						Si x = "(" entonces
+							Existe <-- verdadero
+						Fsi
+					Fmientras
+					Si Existe entonces
+						Mostrar("Secuencia desbalanceada, faltan paréntesis de cierre")
+					Sino
+						Mostrar("Secuencia balanceada")
+					Fsi
+				Sino
+					Si No error entonces
+						Mostrar("Secuencia balanceada")
+					Fsi
+				Fsi
+			Fsi
+		Fsi
+	Sino
+		Mostrar("Secuencia vacía")
+	Fsi
+Fproced
+
+Proced CorchetesLLavesParentesis(Ref Se: Tsecuencia)
+	Var Locales: X: caracter, P1,P2,P3: Tpila, Error: Lógico
+	Pcrear(P1)
+	Pcrear(P2)
+	Pcrear(P3)
+	Error <-- falso
+	Si No Sfin(Se) entonces
+		sleerprim(Se,x)
+		Si x = "}" y No Pllena(P1) entonces
+			Pponer(P1, x)
+		Sino
+			Si x = "]" y No Pllena(P2) entonces
+				Pponer(P2, x)
+			Sino
+				Si x = ")" y No Pllena(P3) entonces
+					Pponer(P3, x)
+				Fsi
+			Fsi
+		Fsi
+		Mientras No Sfin(Se) y No Pllena(P1) y No Pllena(P2) y No Pllena(P3) hacer
+			Sleersig(Se, x)
+			Si x = "}" entonces
+				Pponer(P1, x)
+			Sino
+				Si x = "]" entonces
+					Pponer(P2, x)
+				Sino 
+					Si x = ")" entonces
+						Pponer(P3, x)
+					Fsi
+				Fsi
+			Fsi
+		Fmientras
+		Si No Sfin(Se) entonces
+			Mostrar("Demasiados elementos")
+		Sino
+			Sleerprim(Se, x)
+			Si x = "{" y No Pvacía(P1) entonces
+				Psacar(P1, x)
+			Sino 
+				Si x = "[" y No Pvacía(p2) entonces
+					Psacar(P2, x)
+				Sino
+					Si x = "(" y No Pvacía(P3) entonces
+						Psacar(P3, x)
+					Fsi
+				Fsi
+			Fsi
+			Mientras No Sfin(Se) y No PVacía(P1) y No PVacía(P2) y No PVacía(P3) hacer
+				Sleersig(Se, x)
+				Si x = "{" entonces
+					Psacar(P1, x)
+				Sino 
+					Si x = "[" entonces
+						Psacar(P2, x)
+					Sino
+						Si x = "(" entonces
+							Psacar(P3, x)
+						Fsi
+					Fsi
+				Fsi
+			Fmientras
+			Si No Sfin(Se) entonces
+				Existe <-- falso
+				Mientras No Sfin(Se) y No Existe hacer
+					SleerSig(Se, x)
+					Si x = "{" o x = "[" o si x = "(" entonces
+						 Existe <-- Verdadero
+					Fsi
+				Fmientras
+				Si No Existe entonces
+---------
+Pre{Se1, Se2 tienen al menos 1 elemento}
+Proced Secuenciamaslarga(Ref S1, S2: Tsecuencia, Ref Error: Lógico)
+	Var local: x, y: caracter, P1, P2: Tsecuencia
+	Pcrear(P1)
+	Pcrear(P2)
+	Sleerprim(S1, x)
+	SLeerprim(S2, y)
+	Pponer(P1, x)
+	Pponer(P2, y)
+	Error <-- falso
+	Mientras No Sfin(S1) y No Error hacer
+		SleerSig(S1, x)
+		Si No Pllena(P1) entonces
+			Pponer(P1, x)
+		Sino
+			Error <-- verdadero
+		Fsi
+	Fmientras
+	Si No Error entonces
+		Mientras No Sfin(S2) y No Error hacer
+			Sleersig(S2, y)
+			Si No Pllena(P2) entonces
+				Pponer(P2, y)
+			Sino
+				Error <-- verdadero
+			Fsi
+		Fmientras
+		Si No Error entonces
+			Mientras No Pvacia(P1) y No Pvacia(P2) hacer
+				Psacar(p1, x)
+				Psacar(p2, y)
+			Fmientras
+			Si No Pvacia(P1) y Pvacia(P2) entonces
+				Mostrar("Secuencia 1 es la más larga")
+			Sino
+				Si No Pvacia(P2) y Pvacia(P1) entonces
+					Mostrar("Secuencia 2 es la más larga")
+				Sino {P1 y P2 estan vacías}
+					Mostrar("Ambas secuencias tienen la misma longitud")
+				Fsi
+			Fsi
+		Sino
+			Mostrar("Demasiados elementos en la secuencia 2")
+	Sino
+		Mostrar("Demasiados elementos en la secuencia 1")
+	Fsi
+Fproced
+Ejercicio 8
+Precond{Secuencia debe tener al menos un elemento}
+Proced InformarUltcaracteres(Ref Se: Tsecuencia, Val N:entero)
+	Var Locales: P: Tpila, x: caracter
+	Pcrear(P, x)
+	Sleerprim(Se, x)
+	Si No Pllena(P) entonces
+		Pponer(P, x)
+	fsi
+	Mientras No Sfin(Se) y No Pllena(P) hacer
+		SleerSig(Se, x)
+		Pponer(P, x)
+	FMientras
+	Si No Sfin(Se) entonces
+		Mostrar("Demasiados caracteres")
+	Sino
+		Mientras N != 0 y No pvacia(P) hacer
+			Psacar(P, x)
+			Mostrar(x)
+			N <-- N - 1
+		Fmientras
+		Si N != 0 entonces
+			Mostrar("Faltan caracteres")
+		Fsi
+	Fsi
+FProced
+Ejercicio 10
+Proced Pila (Ref S: Tsecuencia)
+	Var local: P:tpila, x:secuencia, Num: entero
+	Si no Sfin(Se) entonces
+		Sleerprim(Se, x)
+		Si NO EsDigito(x) y No pllena(p) entonces
+			Pponer(P)
+		Sino
+			Si No Pllena(P)entonces
+				Convertir(x, Num)
+				Mientras Num !=0 y NO Pvacia(P) hacer
+					Psacar(P, x)
+					Num <-- Num - 1
+				Fmientras
+			Sino
+				Mostrar("Demasiados elementos")
+			Fsi
+		Fsi
+		Mientras No Sfin(Se) y No Pllena(P) hacer
+			Sleersig(Se, x)
+			SI No EsDígito(x) y No Pllena(P) entonces
+				Pponer(P, x)
+			Sino
+				Si No Pllena(P) entonces
+					Convertir(x, Num)
+					Mientras Num!=0 y No Pvacia(P) hacer
+						Psacar(P, x)
+						Num <-- Num - 1
+					Fmientras
+				Sino
+					Mostrar("Demasiados elementos")
+				Fsi
+			fsi
+		FMientras
+	Sino
+		Mostrar("Secuencia vacía")
+	Fsi
+Fproced
+Función EsDigito(Val x: caracter): Lógico
+	Segun x hacer
+		'0','1','2','3','4','5','6','7','8','9': EsDigito <-- Verdadero
+		otros: EsDigito <-- falso
+	Fsegun
+FFunción
+Proced Convertir(Val x:caracter, Ref N: entero)
+	Segun x hacer
+		'0': N <-- 0
+		'1': N <-- 1
+		'2': N <-- 2
+		'3': N <-- 3
+		'4': N <-- 4
+		'5': N <-- 5
+		'6': N <-- 6
+		'7': N <-- 7
+		'8': N <-- 8
+		'9': N <-- 9
+	Fsegun
+FProced
+
+Ejercicios cola
+A)
+Proced MoveraPila(Ref C: Tcola, Ref P:tpila)
+	Var local: x: enteros, Caux:tcola
+	Pcrear(P)
+	Ccrear(C)
+	mientras No Cvacia(c) y No Pllena(P) y No Cllena(caux) hacer
+		Csacar(C, x)
+		Pponer(P, x)
+		Cponer(Caux, x)
+	Fmientras
+	Si No Cvacia(c) entonces
+		Mostrar("Demasiados elementos")
+	Sino
+		Mientras No Cvacía(Caux) y No Cllena(C) hacer
+			Csacar(Caux, x)
+			Cponer(c, x)
+		Fmientras
+		Si No Cvacia(Caux) entonces
+			Mostrar("Demasiados elementos")
+		Fsi
+	fSI
+FPROCED
+B)
+Proced ColaOrdeninverso(Ref C:Tcola, ref P:tpila, Ref error: Lógico)
+	Var Local: X: entero
+	Pcrear(P)
+	Error <-- falso
+	Mientras No Cvacia(C) y No Error hacer
+		Csacar(C, x)
+		Si No Pllena(P) entonces
+			PPoner(P, x)
+		Sino
+			Error <-- verdadero
+		Fsi
+	Fmientras
+	Si No Error entonces
+		Mientras No Pvacia(p) y No error hacer
+			Psacar(P)
+			Si No Cllena(C) hacer
+				Cponer(C, x)
+			Sino
+				Error <-- Verdadero
+			Fsi
+		Fmientras
+		Si Error entonces
+			Mostrar("Demasiados elementos en la pila")
+		FSi
+	Sino
+		Mostrar("Demasiados elementos en la cola")
+	Fsi
+Fproced
+c)
+Proced CantElemCola(Ref C:Tcola, Ref Cant: entero)
+	Var Local: Caux: Tcola, x:entero
+	Ccrear(Caux)
+	Cant <-- 0
+	Mientras No Cvacia (C) y No Cllena(Caux) hacer
+		Csacar(C, x)
+		Cponer(Caux, x)
+		Cant <-- cant + 1
+	Fmientras
+	Si No Cvacia(C) entonces
+		Mostrar("Demasiados elementos")
+	Sino
+		Mientras No Cvacia(Caux) y No Cllena(C) hacer
+			Csacar(Caux)
+			Cponer(C)
+		Fmientras
+		Si No Cvacia(Caux) entonces
+			mostrar("Demasiados elementos")
+		Sino
+			Mostrar("Cantidad de elementos en la pila:", Cant)
+		Fsi
+	Fsi
+Fproced
+
+d)
+Proced MaximoYMinimo(Ref C1:tcola, ref Max, Min: entero, Ref error: Lógico)
+	Var Local: x:entero, C2:Tcola
+	CCrear(C2)
+	Error <-- falso
+	Si No Cvacia(C1) entonces
+		Csacar(C1, x)
+		Max <-- x
+		Min <-- x
+		Si No Cllena(C2) entonces
+			Cponer(C2, x)
+		Sino 
+			Mostrar("Demasiados elementos")
+			Error <-- verdadero
+		Fsi
+		Mientras No Cvacia(C1) y No error hacer
+			Csacar(C1, x)
+			Si No Cllena(C2) entonces
+				Si x > max entonces
+					max <-- x
+				Fsi
+				Si x < min entonces
+					min <-- x
+				Fsi
+				cponer(C2, x)
+			Sino
+				Error <-- verdadero
+			Fsi
+		Fmientras
+		Si No Error entonces
+			Mientras No Cvacia(C2) y No error entonces
+				Csacar(C2, x)
+				Si No Cllena(C1) entonces
+					Cponer(C1, x)
+				Sino
+					Error <-- verdadero
+				Fsi
+			Fmientras
+			Si No error entonces
+				Mostrar("Maximo", Max, "Minimo", Min )
+			Sino
+				Mostrar("Demasiados elementos en la cola 2")
+		Sino
+			Mostrar("Demasiados elementos en la cola 1")
+		Fsi
+	Sino
+		Mostrar("Cola vacía")
+	fSI
+Fproced
+
+e)
+Proced SumaElementos(Ref C1:Tcola, Val Suma: Entero)
+	Var Local: C2: Tcola, x: entero
+	Ccrear(C2)
+	Suma <-- 0
+	Mientras No Cvacia(C1) y No Cllena(C2) hacer
+		Csacar(C, x)
+		Suma <-- suma + x
+		Cponer(C2)
+	Fmientras
+	Si No CVacía(C1) entonces
+		Mostrar("Demasiados elementos")
+	Sino
+		Mientras No Cvacia(C2) y No Cllena(C1) hacer
+			Csacar(C2, x)
+			Cponer(C1, x)
+		Fmientras
+		Si No Cvacia(C2) entonces
+			Mostrar("Demasiados elementos")
+		Sino 
+			Mostrar(suma)
+		fsi
+	fsi
+Fproced
+f)
+Proced Ultelem(ref C1:Tcola, Ref Ult: entero)
+	var Local: C2: Tcola, x: entero
+	Ccrear(C2)
+	Ult <-- 0
+  Si No Cvacia(C1) entonces
+	Mientras No Cvacia(C1) y No Cllena(C2) hacer
+		Csacar(C1, x)
+		Cponer(C2, x)
+	Fmientras
+	Si No Cvacia(C1) entonces
+		Mostrar("Demasiados elementos")
+	Sino
+		ult <-- x
+		Mientras No Cvacia(C2) y No Cllena(C1) hacer
+			Csacar(C2, x)
+			Cponer(C1, x)
+		Fmientras
+		Si No Cvacia(C2) entonces
+			Mostrar("Demasiados elementos")
+		Sino
+			Mostrar(ult)
+		Fsi
+	Fsi
+  Sino
+	Mostrar("Cola vacía")
+  Fsi
+Fproced
+Ejercicio 4
+Precond{Se1, se2 tienen al menos 1 elemento}
+Proced NuevaSecuencia(Ref Se1, Se2, SS: Tsecuencia, ref error: Logico)
+	Var Locales: x, y: caracter, C1, C2:Tcola
+	Ccrear(C1)
+	Ccrear(C2)
+	Spreparar(SS)
+	Sleerprim(Se1, x)
+	Sleerprim(Se2, y)
+	error <-- falso
+	Si x < y entonces
+		Si No Cllena(C1) entonces
+			Cponer(C1, x)
+		Sino
+			error <-- verdadero
+		Fsi
+	Sino
+		Si x > y entonces
+			SleerSig(Se2, y)
+		sino
+			Sleersig(Se1, x)
+			Sleersig(Se2, y)
+		Fsi
+	Fsi
+	Mientras No Sfin(Se1) y No Sfin(Se2) y No error hacer
+		Si x < y entonces
+			Si No Cllena(C1) entonces
+				Cponer(C1, x)
+			Sino
+				error <-- verdadero
+			Fsi
+		Sino
+			Si x > y entonces
+				SleerSig(Se2, y)
+			sino
+				Sleersig(Se1, x)
+				Sleersig(Se2, y)
+			Fsi
+		Fsi
+	Fmientras
+	Si No Sfin(Se1) y No Cvacia(C1) entonces
+		Mientras No Sfin(Se1) y No Cvacia(C1) hacer
+			Cponer(C1, x)
+			Sleersig(Se1, x)
+		Fmientras
+		Si No Sfin(Se1) entonces
+			Mostrar("Demasiados caracteres")
+			error <-- verdadero
+		Fsi
+	Fsi
+	Si No Error entonces
+		Si Cvacia(C1) entonces
+			Mostrar("Las secuencias eran iguales")
+		Sino
+			Ultelem(C1, Ult, error)
+			Mientras No Cvacia(C1) y No error hacer
+				Csacar(C1, x)
+				SI x != Ult entonces
+					Si No cllena(C2) entonces
+						Cponer(C2, x)
+					Sino
+						Mostrar("Demasiados elementos")	
+						error <-- verdadero
+					Fsi
+				Sino
+					grabar(ss, x)
+					Si No Cvacia(C2) entonces
+						Pasaje(C2, C1, error)
+						Si No error entonces
+							UlTelem(C1, Ult, error)
+						Fsi
+					Fsi
+				Fsi
+			Fmientras
+		Fsi
+	Sino
+		Mostrar("Demasiados elementos")
+	Fsi
+Fproced
+5)
+Procedimiento Palindromo(Ref S:Tsecuencia, Ref Es: Lógico)
+	Var Local: c, x:caracter, P:Tpila, C:Tcola, error: logico
+	Pcrear(P)
+	Ccrear(c)
+	Sleerprim(S, c)
+	es <-- verdadero
+	error <-- falso
+	
+	Si No pllena(P) y No Cllena(C) entonces
+		Cponer(C,c)
+		Pponer(P,c)
+	Sino
+		Error <-- verdadero
+	Fsi
+	Mientras No Sfin(S) y No Error hacer
+		Sleersig(S, c)
+		Si No Cllena(C) y No Pllena(P) entonces
+			Cponer(C, c)
+			Pponer(P, c)
+		Sino
+			error <-- verdadero
+		Fsi
+	Fmientras
+	Si No error entonces
+		C <-- b
+		X <-- b
+		Mientras No Cvacia(C) Y NO Pvacia(P) y c=x hacer
+			Csacar(C, c)
+			Psacar(P, x)
+		Fmientras
+		Si c!=x entonces
+			es <-- falso
+		Fsi
+	Sino
+		Es <-- falso
+		Mostrar("Demasiados elementos")
+	Fsi
+Fproced
+Ejercicio 2
+Proced Ordenamiento(Ref C1,C2:Tcola)
+	Var Local: C3: Tcola, L:tlista, x: cadena[20], Dato: Tdato, Tclave: cadena[20], Existe: Lógico
+	TDato=Reg
+	   clave= Tclave
+	Freg
+	CCrear(C2)
+	Ccrear(C3)
+	Lcrear(L)
+	existe <-- falso
+	Mientras No Cvacia(C1) y No Lllena(L) y No Cllena(C3) hacer
+		Csacar(C1, x)
+		Dato.clave <-- x
+		Lbuscarordenado(L, Dato.clave, Existe)
+		Si No existe entonces
+			Linsertarorden(L, Dato, 'A')
+		Fsi
+		Cponer(C3, x)
+	Fmientras
+	Si No Cvacia(C1) entonces
+		Mostrar("Demasiados elementos")
+	Sino
+		Mientras No Cvacia(C3) y No Cllena(C1) hacer
+			Csacar(C3, x)
+			Cponer(C1, x)
+		Fmientras
+		Si No Cvacia(C3) entonces 
+			Mostrar("Demasiados elementos")
+		Sino
+			Si no Lvacia(L) entonces
+				Lppio(L)
+				Linfo(L, Dato)
+				x <-- Dato.clave
+				Cponer(C2, x)
+				Lsig(L)
+				mientras no Lfin(L) y No Cllena(C2) hacer
+					Linfo(L, x)
+					Cponer(C2, x)
+					Lsig(L)
+				Fmientras
+				Si No Lfin(L) entonces
+					Mostrar("Demasiados elementos")
+				Fsi
+			Sino
+				Mostrar("Lista vacía")
+			fsi
+		Fsi
+	Fsi
+Fproced
+3)
+Proced Frecuenciaylongitud(Ref P:Tpila, Ref L:Tlista)
+	Var Locales: X: Cadena[20], P2: Tpila, Tclave: ent, Clave: Tclave, Existe: Lógico
+	Dato = Reg
+	   Frec: entero
+	   Clave: Tclave
+	Freg
+	Lcrear(L)
+	Existe <-- falso
+	Mientras No Pvacia(P) y No Lllena(L) hacer
+		Psacar(P, x)
+		Dato.clave <-- Long(x)
+		LBuscarordenado(L, Dato.clave, Existe)
+		Si Existe entonces
+			Linfo(L, Dato)
+			Dato.Frec <-- Dato.Frec + 1
+			Lmodificar(L, Dato)
+		Sino
+			Dato.Frec <-- 1
+			Linsertarorden(L, Dato, 'A')
+		fsi
+	Fmientras
+	Si no Pvacia(P) entonces
+		mostrar("Demasiadas palabras en la pila")
+	Sino
+		Si No Lvacia(L) entonces
+			Lppio(L)
+			Linfo(L, Dato)
+			Mostrar("Frecuencia", Dato.Frec, "Longitud", Dato.Clave)
+			Lsig(L)
+			Mientras No Lfin(L) hacer
+				Linfo(L, Dato)
+				Mostrar("Frecuencia", Dato.Frec, "Longitud", Dato.Long)
+				Lsig(L)
+			Fmientras
+		Fsi
+	fSI
+fproced
+4)
+Proced ListaParEImpart(Ref Le,Lpar,Limpar: Tlista)
+	Var local: Dato: Tdato, Tclave: entero
+	Tdato = Reg
+	   Clave: Tclave
+	Freg
+	Lcrear(Lpar)
+	Lcrear(Limpar)
+	Si No Lvacia(L) entonces
+		Lppio(L)
+		Linfo(L, x)
+		Si x resto 2 = 0 entonces
+			Linsertarfin(Lpar, x)
+		Sino
+			Linsertarppio(Limpar, x)
+		Fsi
+		Lsig(L)
+		mientras No Lfin(L) Y No Lllena(Lpar) Y No Lllena(Limpar) hacer
+			Linfo(L, x)
+			Si x resto 2 = 0 entonces
+				Linsertarfin(Lpar, x)
+			Sino
+				Linsertarppio(Limpar, x)
+			Fsi
+			Lsig(L)
+		Fmientras
+		Si No Lfin(L) entonces
+			Mostrar("Demasiados Numeros")
+		Fsi
+	Sino
+		Mostrar("La lista vacía")
+	Fsi
+Fproced
+5)
+Polinomio: Archivo de Reg_term
+Reg_term = Reg
+	Exp: entero
+	Coef: Entero
+Freg
+Tclave: entero
+TermClave = Reg
+	Clave: tclave
+	Coef: Entero
+Freg
+Derivado: Archivo de Reg_Term
+proced PolinomioDerivado()
+	Var Local: Term: Registo de Reg_term, TermClave: registro de TermClave, L:Tlista, Existe: Lógico
+	Crear(Derivado), S, Secuencial
+	Abrir(Polinomio), E, Secuencial
+	LCrear(L)
+	Existe <-- verdadero
+	Mientras No fin(Polinomio) y No Lllena(L) Hacer
+		leer(Polinomio, term)
+		Si Term.Exp != 0 entonces
+			TermClave.Clave <-- Term.Exp - 1
+			LBuscarOrdenado(L, TermClave.Clave, Existe)
+			Si existe entonces
+				Linfo(L, TermClave)
+				Termclave.Exp <-- TermClave.Exp + Term.Exp * Term.Coef
+				Lmodificar(L, TermCLave)
+			Sino
+				Termclave.Exp <-- Term.Exp * Term.Coef
+				Linsertarorden(L, TermCLave, 'A')
+			Fsi
+		Fsi
+		Leer(Polinomio)
+	Fmientras
+	Si No Fin(Polinomio) entonces
+		Mostrar("Polinomio demasiado grande")
+	Sino
+		Si No Lvacia(L) entonces
+			Lppio(L)
+			Linfo(L, TermClave)
+			Term.exp <-- TermCLave.clave
+			Term.coef <-- TermClave.coef
+			Grabar(Derivado, Term)
+			Lsig(L)
+			Mientras No Lfin(l) hacer
+				Linfo(L, TermClave)
+				Term.exp <-- TermCLave.clave
+				Term.coef <-- TermClave.coef
+				Grabar(Derivado, Term)
+				Lsig(L)
+			Fmientras
+		Fsi
+	Fsi
+	Cerrar(Polinomio)
+	Cerrar(Derivado)
+Fproced
+		

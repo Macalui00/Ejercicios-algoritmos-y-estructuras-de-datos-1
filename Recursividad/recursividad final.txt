@@ -1,0 +1,632 @@
+Pre={x=n, y=0}
+Proced Pares(Val n, x, y:entero)
+	si n < 0 entonces
+		si x <= y entonces
+			mostrar("("x","y")")
+			pares(n, x+1, y-1)
+		fsi
+	sino
+		si x >= y entonces
+			mostrar("("x","y")")
+			Pares(n, x-1, y+1)
+		fsi
+	fsi
+Fproced
+Pre={x=|n|, y=0}
+proced Pares(val n, x, y: entero)
+	si x >= y entonces
+		si n < 0 entonces
+			Mostrar("("x","y")")
+		sino
+			Mostrar("(-"x",-"y")")
+		fsi
+	fsi
+Fproced
+
+Prueba de escritorio
+      N      |     x      |     y     |    mostrar
+------------------------------------------------------
+      6      |     6      |     0     |	   (6,0)
+	     |     5      |     1     |    (5,1)
+	     |     4      |     2     |    (4,2)
+	     |     3      |     3     |    (3,3)
+             |     2      |     4     | fin
+------------------------------------------------------
+     -3      |    -3      |     0     |    (-3,0)
+     	     |    -2 	  |    -1     |    (-2,-1)
+             |    -1      |    -2     | Fin
+------------------------------------------------------
+
+Pre={tope > 0, pos = tope}
+Proced minelem(ref Arr: arreglo[Max] de enteros, val tope: entero, ref pos, min: entero)
+	si pos > 1 entonces
+		minelem(Arr, tope, pos-1, min)
+		si Arr[pos] < min entonces
+			min <-- Arr[pos]
+		fsi
+	sino
+		min <-- Arr[pos]
+	fsi
+Fproced
+
+prueba de escritorio
+
+Arreglo		tope	  pos	  min
+4 4 5 2		 4	   4?      2
+			   3       4
+			   2       4
+			   1       4?
+---------------------------------------
+3 4 2 7          4         4?      2
+		           3	   2
+			   2	   3
+                           1       3?
+---------------------------------------
+5                1         1       5
+---------------------------------------
+
+Pre={Tope > 0, pos = tope}
+proced promedio(ref Arr: arreglo[Max] de reales, val tope, pos: entero, ref prom: reales)
+	Var local: suma: reales, cont: enteros
+	si pos > 1 entonces
+		promedio(Arr, tope, pos-1, prom)
+		suma <-- suma + Arr[pos]
+		cont <-- cont + 1
+		si pos = tope entonces
+			prom <-- suma / cont
+		fsi
+	sino
+		suma <-- Arr[pos]
+		cont <-- 1
+		si pos = tope entonces
+			prom <-- suma / cont
+		fsi
+	fsi
+FProced
+(otra version seria que pos sea >0 entonces cuando sea 0 solo cont toma valor )
+(ACLARACION: probablemente no es necesario tener la variable cont, porque si pregunto si pos es igual a tope
+entonces tope es igual a la cantidad total de elementos en el arreglo, por lo tanto podria directamente usar 
+pos para calcular promedio)
+
+Prueba de escritorio
+
+Arreglo		Tope	   pos	     prom       suma     cont 
+-------------------------------------------------------------
+5,2 3 1,2 5      4	    4        3,6         14,4      4
+			    3                    9,4       3
+			    2                    8,2       2
+			    1?                   5,2       1
+-------------------------------------------------------------
+2                1          1        		 2         1
+-------------------------------------------------------------
+3 5              2          2        2,5         5         2
+			    1?                   3?	   1
+-------------------------------------------------------------
+
+Función Especular(Val n:entero): entero
+	Var local: cant: entero
+	Si n > 0 entonces
+		cant <-- cantdig(n)
+		Especular <-- n Resto 10 * pot(10, cant-1) + especular(n div 10)
+	sino
+		Especular <-- 0
+	Fsi
+Ffunc
+
+Func cantdig(val n: entero): entero
+	var local: 
+	Si n < 0 entonces
+		cantdig <-- cantdig(-n)
+	sino
+		si n > 9 entonces
+			cantdig <-- 1 + Cantdig(n Div 10)
+		sino
+			cantdig <-- 1
+		fsi
+	fsi
+Ffunc
+pre={tope>0, pos=tope}	
+proced ImprPares(ref Arr: arreglo[max] de enteros, val tope, pos: entero)
+	si pos >= 2 entonces
+		si pos resto 2 = 0 entonces
+			mostrar(Arr[pos])
+		fsi
+		ImprPares(Arr, tope, pos-1)
+	fsi
+Fproced
+
+Prueba de escritorio
+ Arreglo     tope    pos    mostrar
+-------------------------------------
+2 3 6 7 8     5       5       7
+		      4	      3
+		      3
+		      2
+-------------------------------------
+9     	      1       1 
+-------------------------------------
+pre={n>=1}
+func RaizCuadrada(Val n: entero): real
+	si n>1 entonces
+		Raizcuadrada <-- 1/2 *(RaizCuadrada(n-1)+(n/RaizCuadrada(n-1)))
+	sino
+		RaizCuadrada <-- 1
+	Fsi
+Ffunc
+
+Pre={tope1 = tope2, tope1>0, tope2>0}
+proced ProdEscalar(Ref A1,A2: arreglo[MAX] de enteros, Val Tope1,Tope2: entero, ref Prod: entero)
+	si tope1 > 1 entonces
+		ProdEscalar(A1,A2, Tope1-1, Tope2-1, Prod)
+		Prod <-- prod + A1[Tope1]*A2[Tope2]
+	sino
+		prod <-- A1[1] * A2[1]
+	Fsi
+Fproced
+
+Prueba de escritorio
+  Arreglo 1    Tope1     Arreglo 2    Tope2      Prod
+--------------------------------------------------------
+ 3  4  5 7       4       9 2 3 8        4?	  106
+		 3			3	  50
+		 2                      2	  35
+		 1			1	  27?
+--------------------------------------------------------
+ 2               1       4		1         8
+--------------------------------------------------------
+pre={Tope > 0}
+Func Existe(Ref Arr:Arreglo[Max] de enteros, val tope, n: entero): lógico
+	si Tope >= 1 entonces
+		Si n = Arr[Tope] entonces
+			Existe <-- verdadero
+		sino
+			Existe <-- Existe(Arr, tope-1, n)
+		fsi
+	sino
+		Existe <-- falso
+	Fsi
+FFunc
+
+prueba de escritorio
+Arreglo	       Tope      n       Existe
+3 4 5 6 6       5        5       Verdadero
+		4
+		3?
+-------------------------------------------
+1 1 2           3        4
+		2
+		1
+		0?		 Falso
+-------------------------------------------
+9		1	 9       Verdadero
+-------------------------------------------
+9		1	 3
+		0		 Falso
+-------------------------------------------
+
+Pre={Tope > 0, pos = 1}
+Func BusqBinaria(Ref Arr: Arreglo[Max] de enteros, Val Tope, pos, n: entero, Val orden:caracter): lógico
+	Var local: mitad: entero
+	si orden = "A" entonces
+		si Tope >= pos entonces
+			mitad <-- (tope+pos) div 2
+			si Arr[mitad] = n entonces
+				BusqBinaria <-- Verdadero
+			sino
+				si Arr[mitad] > n entonces
+					BusqBinaria <-- BusqBinaria(Arr, mitad-1, pos, n)
+				sino
+					BusqBinaria <-- BusqBinaria(Arr, Tope, mitad+1, n)
+				fsi
+			fsi
+		sino
+			BusqBinaria <-- falso
+		Fsi
+	sino
+		si Tope >= pos entonces
+			mitad <-- (Tope+pos) div 2
+			Si Arr[mitad] = n entonces
+				BusqBinaria <-- Verdadero
+			sino
+				Si Arr[mitad] > n entonces
+					BusqBinaria <-- BusqBinaria(Arr, Tope, Mitad+1, n)
+				Sino
+					BusqBinaria <-- BusqBinaria(Arr, Mitad-1, pos, n)
+				Fsi
+			fsi
+		sino
+			BusqBinaria <-- falso
+		Fsi
+	Fsi
+Ffunc
+Pre = {Tope > 0}
+Func SumaElem(Ref Arr: Arreglo[Max] de enteros, Val tope: entero): entero
+	Si Tope > 0 entonces
+		SumaElem <-- Arr[Tope] + SumaElem(Arr, Tope-1)
+	Sino
+		SumaElem <-- 0
+	Fsi
+Ffunc
+
+Prueba de Escritorio
+Arreglo      Tope   SumaElem
+------------------------------
+2 3 4 7       4       16
+	      3	      9
+	      2	      5
+	      1	      2?
+              0?      0
+------------------------------
+7	      1	      7
+	      0       0
+------------------------------
+
+Proced EmitirElem(Ref Arr: Arreglo[Max] de enteros, val Tope: entero)
+	Si Tope > 1 entonces
+		Mostrar(Arr[Tope])
+		EmitirElem(Arr, Tope-1)
+	sino
+		mostrar(Arr[tope])
+	Fsi
+Fproced
+
+
+Proced EmitirOrdenInverso(Ref Arr: Arreglo[Max] de enteros, Val Tope: entero)
+	Si Tope > 1 entonces
+		EmitirElem(Arr, Tope - 1)
+		Mostrar(Arr[tope])
+	sino
+		Mostrar(Arr[tope])
+	Fsi
+Fproced
+Pre={Tope > 0, pos = 1}
+func Palindromo(Ref Arr: Arreglo[Max] de caracters, val Tope, pos: entero): lógico
+	si tope > pos entonces
+		si Arr[Tope] = Arr[pos] entonces
+			Palindromo <-- palindromo(Arr, tope-1, pos+1)
+		sino
+			Palindromo <-- Falso
+		fsi
+	sino
+		Palindromo <-- verdadero
+	Fsi
+Ffunc
+
+Prueba de escritorio
+Arreglo      Tope       pos     Arr[tope]   Arr[pos]    Palindromo
+-------------------------------------------------------------------
+amma	       4         1          a           a
+	       3         2          m           m
+	       2         3				Verdadero
+-------------------------------------------------------------------
+amnma          5         1	    a           a
+	       4         2	    m	        m
+	       3	 3				Verdadero
+-------------------------------------------------------------------
+mnlñ	       4         1          ñ		m	Falso
+-------------------------------------------------------------------
+
+Pre={Tope1 > 0, tope2 = 1}
+Proced Invertir(Ref Arr1, Arr2: arreglo[Max] de caracteres, Val tope1, tope2: entero)
+	Si Tope1 > 1 entonces
+		Invertir(Arr1,Arr2, tope1 - 1, Tope2 + 1)
+		Arr2[Tope2] <-- Arr1[Tope1]
+	sino
+		Arr2[Tope2] <-- Arr1[Tope1]
+	fsi
+FProced
+
+Prueba de Escritorio
+Arr1	Arr2	Tope1	Tope2
+-------------------------------
+1 1 2	2 1 1	  3	  1
+		  2	  2
+		  1	  3
+-------------------------------
+3	3	  1	  1
+-------------------------------
+
+Func Posicion(Ref A:Arreglo[MAX] de enteros, val tope, n: entero): entero
+	si tope >= 1 entonces
+		si Arr[Tope] = n entonces
+			Posicion <-- Tope
+		Sino
+			Posicion <-- posicion(A, Tope - 1, n)
+		fsi
+	sino
+		posicion <-- 0
+	fsi
+Ffunc
+
+Prueba de Escritorio
+Arreglo	    Tope      n    Arr[Tope]   posicion
+-------------------------------------------------
+4 4 5 3 1    5        3       1
+	     4                3		  4
+-------------------------------------------------
+2 3	     2	      2       3
+	     1		      2		  1
+-------------------------------------------------
+2 3 	     2        9       3
+	     1                2
+	     0				  0
+-------------------------------------------------
+1	     1	      1       1           1
+-------------------------------------------------
+
+pre={Tope>0}
+Func CantApar(Ref Arr: arreglo[Max] de enteros, val tope, n: entero): entero
+	si Tope > 0 entonces
+		si n = Arr[tope] entonces
+			CantApar <-- 1 + CantApar(Arr, tope - 1, n)
+		Sino
+			CantApar <--- CantApar(Arr, tope - 1, n)
+		fsi
+	sino
+		CantApar <-- 0
+	fsi
+Ffunc
+
+Prueba de Escritorio
+Arreglo	    Tope      n      Arr[Tope]      CantApar
+--------------------------------------------------------
+4 3 4 3	      4       4    	3	       2
+	      3                 4              2
+	      2                 3	       1
+	      1			4?	       1
+	      0 ?                              0 ?
+--------------------------------------------------------
+2 1	      2       9         1
+	      1			2
+	      0				       0
+--------------------------------------------------------
+3	      1	      3		3	       1
+	      0				       0
+--------------------------------------------------------
+
+Proced ImprimirElem(Ref Arr: Arreglo[Max] de enteros, val tope: entero)
+	si Tope > 0 entonces
+		EmitirElem(Arr, Tope)
+		ImprimirElem(Arr, Tope - 1)
+	Fsi
+Fproced
+
+Pre={Tope1 = tope2, Tope1 > 0, tope2 > 0}
+Func Iguales(ref Arr1, Arr2: Arreglo[Max] de enteros, val Tope1, tope2: enteros): lógico
+	Si tope1 > 0 entonces
+		Si Arr1[Tope1] = Arr2[Tope2] entonces
+			iguales <-- iguales(Arr1, Arr2, tope1 - 1, Tope2 - 1)
+		sino
+			Iguales <-- falso
+		Fsi
+	sino
+		iguales <-- verdadero
+	fsi
+Ffunc
+
+Prueba de escritorio
+Arr1 	Arr2	Tope1	Tope2    Arr1[tope1]    Arr2[tope2]	Iguales
+----------------------------------------------------------------------------
+3 4 6	3 4 6     3       3	     6		    6
+		  2	  2	     4		    4
+		  1       1	     3		    3
+		  0	  0					Verdadero
+----------------------------------------------------------------------------
+2 3 8	1 9 8	  3	  3	     8		    8
+		  2	  2	     3		    9		Falso
+----------------------------------------------------------------------------	
+
+pre={Aux = 0}
+Proced Mostrarinfo(ref L:tlista, val aux: entero)
+	Var local: x:tdato
+	Si Aux = 0 entonces
+		Si No Lvacia(L) entonces
+			Lppio(L)
+			Linfo(L, x)
+			Mostrar(X)
+			Lsig(L)
+		fsi
+		Mostrarinfo(L, 1)
+	sino
+		Si no lfin(L) entonces
+			Linfo(L, x)
+			Mostrar(x)
+			lsig(l)
+		Fsi
+		Mostrarinfo(L, aux)
+	Fsi
+Fproced
+
+pre={aux = 0}
+Funcion Existe(Ref L:Tlista, val aux: entero, val dato: Tdato): lógico
+	si aux = 0 entonces
+		si No Lvacia(L) entonces
+			Lppio(l)
+			linfo(l, x)
+			si x = dato entonces
+				Existe <-- verdadero
+			sino
+				Lsig(l)
+				Existe <--- Existe(L, 1, dato)
+			fsi
+		Sino
+			Existe <-- falso
+		fsi
+	sino
+		Si No Lfin(l) entonces
+			Linfo(L, x)
+			Si x = dato entonces
+				Existe <-- verdadero
+			Sino
+				Lsig(L)
+				Existe <-- existe(L, aux, dato)
+			fsi
+		Sino
+			Existe <-- falso
+		Fsi
+	Fsi
+Ffunción
+
+Pre={Topef=TopeC > 0}
+Func MinimoMat(Ref M: Matriz[Maxf][MaxL] de enteros, val Tf, Tc: enteros): entero
+	Var local: min1, min2: entero
+	Si Tf > 1 entonces
+		min1 <-- MinimoMat(m, tf - 1, tc)
+		min2 <-- minarr(A, tf, tc)
+		Si Min1 < Min2 entonces
+			MinimoMat <-- Min1
+		sino
+			MinimoMat <-- Min2
+		Fsi
+	sino
+		MinimoMat <-- MinimoArr(A, Tf, Tc)
+	Fsi
+Ffunc
+
+Pre={Topef=TopeC>0}
+Func MinArr(Ref M: Mat[Maxf][Maxc] de enteros, val Tf, Tc: entero): entero
+	Var local: Min1, Min2: entero
+	Si TC > 1 entonces
+		Min1 <-- MinArr(M, Tf, Tc - 1)
+		min2 <-- M[Tf][Tc]
+		Si Min1 < min2 entonces
+			MinArr <-- min1
+		sino
+			MinArr <-- min2
+		fsi
+	Sino
+		MinArr <-- M[Tf][Tc]
+	Fsi
+Ffunc
+
+pre={Tf=Tc > 0, T=0}
+Proced MaximosMat(Ref M: Matriz[Maxf][MaxC] de enteros, Val Tf, Tc: entero, Ref A: arreglo[Max] de enteros,
+											Val T: entero)
+	Var local: Max: entero
+	Si Tf > 1 entonces
+		MaximosMat(M, tf-1, tc, A,T)
+		Max <-- MaxArr(M, Tf, Tc)
+		T <-- T + 1
+		A[T] <-- Max
+	sino
+		Max <-- MaxArr(M, Tf, Tc)
+		T <-- T + 1
+		A[T] <-- Max
+	Fsi
+Fproced
+
+Func MaxArr(Ref M:Matriz[MaxF][Maxc] de enteros, val Tf, tc: enteros)
+	Var local: Max1, Max2: entero
+	Si TC > 1 entonces
+		Max1 <-- MaxArr(M, tf, tc-1)
+		Max2 <-- M[Tf][tc]
+		si Max1 > Max2 entonces
+			MaxArr <-- Max1
+		Sino
+			MaxArr <-- Max2
+		Fsi
+	sino
+		MaxArr <-- M[Tf][Tc]
+	Fsi
+Ffunc
+
+pre={TopeF=TopeC > 0}
+Func EsSimetrica(Ref M:Mat[MaxF][MaxC] de enteros, Val Topef, TopeC: enteros): Lógico
+	Si tf > 1 entonces
+		Si Igual(M, Topef, topec - 1, Topef - 1, Topec) entonces
+			EsSimetrica <-- EsSimetrica(M, Topef-1, topec-1)
+		Sino
+			EsSimetrica <-- falso
+		Fsi
+	sino
+		EsSimetrica <-- verdadero
+	Fsi
+Ffunc
+
+Función Igual(M:Mat[Maxf][MaxC] de enteros, Val TF1, TC1, TF2, TC2: entero): Lógico
+	si TF2 > 0 entonces
+		si M[TF1, TC1] = M[TC2, TF2] entonces
+			igual <-- igual(M, tf1, tc1 - 1, Tf2 - 1, TC2)
+		sino
+			igual <-- Falso
+		Fsi
+	sino
+		igual <-- verdadero
+	Fsi
+FFunc
+
+Func MaxTInf(Ref M: Mat[MaxF][MaxC] de enteros, val Topef, Topec: enteros): entero
+	si tf > 2 entonces
+		Max1 <-- MaxTInf(M, Topef - 1, topec - 1)
+		Max2 <-- MaxArr(M, Topef, topec-1)
+		Si Max1 > Max2 entonces
+			MaxTInf <-- Max1
+		Sino
+			MaxTInf <-- Max2
+		Fsi
+	Sino
+		MaxTinf <-- M[Topef][Topec-1]
+	Fsi
+Ffunc
+
+pre={tope=0, topef=topec > 0}
+Procedim CantAparMatriz(Ref M:Matriz[MaxF][Maxc] de Caracteres, val Topef, topec: enteros, 
+					ref A:Arreglo[Max] de enteros, val Tope: entero)
+	Si Tc > 0 entonces
+		cant <-- cantApar(M, topef, topec, M[topef][Topec])
+		tope <-- tope + 1
+		A[tope] <-- cant
+		CantAparMatriz(M, topef, topec - 1)
+	fsi
+Fproced
+
+Func CantApar(Ref M:matriz[MaxF][Maxc] de caracteres, val topef, topec: enteros, val X: caracter): entero
+	Si topec > 0 entonces
+		Si M[topef][topec] = X entonces
+			CantApar <-- 1 + cantapar(M, topef, topec-1, x)
+		sino
+			CantApar <-- Cantapar(M, topef, topec-1, x)
+		fsi
+	sino
+		Cantapar <-- 0
+	fsi
+Ffunc
+(Falta hacer prueba de escritorio)
+
+pre={N=0}
+Funcion Seno(Val x:real, val Tol:real, Val N:entero): real
+	Var locales: T: real
+	T <-- potencia(-1, N) * potencia(x,2*n+1)/factorial(2*n+1)
+	si Modulo(T) > Tol entonces
+		Seno <-- T + Seno(x, Tol, n+1)
+	Sino
+		Seno <-- T
+	Fsi
+FFunción
+Func Factorial(Val n:entero): entero
+	Si n > 0 entonces
+		Factorial <-- n * factorial(n-1)
+	sino
+		factorial <-- 1
+	fsi
+Ffunc
+
+Func potencia(val n, exp: enteros): entero
+	si Exp > 0 entonces
+		Potencia <-- n*potencia(n, exp - 1)
+	sino
+		si Exp = 0 entonces
+			Potencia <-- 1
+		sino
+			n <-- (1/n)
+			Exp <-- exp *(-1)
+			Potencia <-- n*Potencia(n, Exp - 1)
+		Fsi
+	Fsi
+Ffun
+
+n	Exponente 	Potencia
+3	    3		    27
+	    2		    9
+	    1		    3
+	    0		    1

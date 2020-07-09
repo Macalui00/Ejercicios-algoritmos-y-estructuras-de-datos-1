@@ -1,0 +1,681 @@
+TDA Fecha
+
+Gregoriano Registro
+Tfecha = reg
+     dia: entero
+     mes: entero
+     anio: entero
+Freg
+
+Func Fdia(ref F:Tfecha): entero
+	FDia <-- f.dia
+Ffunc
+
+Func FMes(ref F:Tfecha): entero
+	Fmes <-- f.mes
+Ffunc
+
+Func Fanio(ref f:Tfecha): entero
+	Fanio <-- f.anio
+FFunc
+
+proced FsumarDias(ref F:Tfecha, val n:entero)
+	var local: v: entero
+	si n > 0 entonces
+		f.dia <-- f.dia + n
+		Mientras f.dia > cantdias(f.mes, f.anio) hacer
+			f.dia <-- f.dia - cantdias(f.mes, f.anio)
+			f.mes <-- f.mes + 1
+			si f.mes = 13 entonces
+				f.anio <-- f.anio +1
+				f.mes <-- 1
+			fsi
+		fmientras
+	sino
+		v <-- n*(-1)
+		Mientras V > 0 hacer
+			f.dia <-- f.dia - 1
+			si f.dia = 0 entonces
+				f.mes <-- f.mes - 1
+				si f.mes = 0 entonces
+					f.anio <-- f.anio - 1
+					f.mes <-- 12
+				fsi
+				f.dia <-- cantdias(F.mes, f.anio)
+			fsi
+			v <-- v - 1
+		fMientras
+	fsi
+fproced
+
+Func CantDias(Val m, a: entero): entero
+	Var local: Dias: entero
+	si m = 4 o m = 6 o m = 9 o m = 11 entonces
+		Dias <-- 30
+	sino
+		si m = 2 entonces
+			si EsBisiesto(a) entonces
+				Dias <-- 29
+			sino
+				Dias <-- 28
+			Fsi
+		sino
+			Dias <-- 31
+		fsi
+	fsi
+Ffunc
+
+Func EsBisiesto(val a:entero): Lógico
+	var local: es:lógico
+	es <-- falso
+	Si (a resto 400) o (a resto 4 = 0 y a resto 100 != 0) entonces
+		EsBisiesto <-- verdadero
+	Fsi
+	EsBisiesto <-- es
+Ffunc
+
+Func FVálida(ref F:Tfecha): Lógico
+	var local: mes: arreglo[12] de entero
+	cargar(mes, f)
+	si f.anio > 1500 entonces
+		si f.mes >= 1 y f.mes <= 12 entonces
+			si f.dia >= 1 y f.dia <= mes[f.mes] entonces
+				Fválida <-- verdadero
+			sino
+				Fválida <-- falso
+			fsi
+		sino
+			Fválida <-- falso
+		fsi
+	sino
+		Fválida <-- falso
+	fsi
+Ffunc
+
+Proced Cargar(ref m: arreglo[12] entero, ref f:Tfecha)
+	Si (f.anio resto 400 = 0) o (f.anio resto 4 = 0 y f.anio resto 100 != 0) entonces
+		m[2] <-- 29
+	sino
+		m[2] <-- 28
+	fsi
+	m[1] <-- 31, m[3] <-- 31; m[5] <-- 31; m[7] <-- 31; m[8] <-- 31, m[10] <-- 31; m[12] <-- 31
+	m[4] <-- 30; m[6] <-- 30, m[9] <-- 30; m[11] <-- 30
+Fproced
+
+Func fDiferenciaDias(ref f1, f2:Tfecha): entero
+	Var local: DiaMayor, DiaMenor: entero
+	DiaMayor <-- SuperJuliano(F1)
+	DiaMenor <-- SuperJuliano(F2)
+	FDiferenciaDias <-- DiaMayor - DiaMenor
+FFunc
+
+Func SuperJuliano(ref F:Tfecha): entero
+	Var local: diaAux, mesAux, anioAux: entero
+	diaAux <-- 0
+	mesAux <-- 1
+	anioAux <-- 1
+	Mientras anioAux < F.anio hacer
+		si EsBisiesto(anioAux) entonces
+			diaAux <-- DiaAux + 366
+		sino
+			diaAux <-- diaAux + 365
+		fsi
+		anioAux <-- anioAux + 1
+	fmientras
+	mientras mesaux < f.mes hacer
+		diaAux <-- diaAux + cantdias(mesaux, f.anio)
+		mesaux <-- mesaux + 1
+	fmientras
+	diaAux <-- diaAux + f.dia
+	superjuliano <-- diaAux
+Ffunc
+
+Proced FconvertirFlegibleTFecha(ref Fent: flegible, ref fSal: Tfecha, ref error: lógico)
+	Convertir(Subcadena(fent, 7, 4), F.anio, error)
+	Si No error entonces
+		convertir(Subcadena(Fent, 4, 2), f.mes, error))
+		si No error entonces
+			Convertir(Subcadena(fent, 1, 2), f.dia,Error)
+		fsi
+	fsi
+Fproced
+
+proced FconvertirTFechaFlegible(ref Fent:Tfecha, ref Fsal: Flegible)
+	si Fent.dia < 10 entonces
+		fsal <-- '0' + str(fent.dia) + '/'
+	sino
+		fsal <-- Str(fent.dia) + '/'
+	fsi
+	Si Fent.mes < 10 entonces
+		Fsal <-- fsal + '0' + str(fent.mes) + '/'
+	sino
+		Fsal <-- fsal + str(fent.mes) + '/'
+	fsi
+	fsal <-- fsal + str(fent.anio)
+Fproced
+
+func Fmayor(ref f1, f2:Tfecha): lógico
+	si f1.anio > f2.anio entonces
+		Fmayor <-- verdadero
+	sino
+		si f1.anio < f2.anio entonces
+			Fmayor <-- falso
+		sino
+			si f1.mes > f2.mes entonces
+				Fmayor <-- verdadero
+			sino
+				si f1.mes < f2.mes entonces
+					Fmayor <-- falso
+				sino
+					si f1.dias > f2.dias entonces
+						Fmayor <-- verdadero
+					sino
+						Fmayor <-- falso
+					fsi
+				fsi
+			fsi
+		fsi
+	fsi
+Ffunc
+
+Gregoriano cadena
+Tfecha = cadena[8] // 'aaaammdd'
+
+Func Fdia(ref F:Tfecha): entero
+	var local: iDia: entero, error: lógico
+	Convertir(Subcadena(F, 7, 2), iDia, error)
+	fDia <-- iDia
+Ffunc
+
+func Fmes(ref F:Tfecha): entero
+	Var local: iMes: entero, error: lógico
+	Convertir(subcadena(F, 5, 2), iMes, error)
+	Fmes <-- iMes
+Ffunc
+
+Func Fanio(ref F:Tfecha): entero
+	Var local: iAnio: entero, error: Lógico
+	Convertir(Subcadena(F, 1, 4), ianio, error)
+	Fanio <-- ianio
+FFunc
+
+Func Fmayor(ref F1, F2:Tfecha): lógico
+	Fmayor <-- F1 > F2
+FFunc
+
+Func FVálida(ref F:Tfecha): lógico
+	var local: Mes: arreglo[12] de entero, iAnio, iMes, iDia: entero, error: lógico (IMPORTANTE)
+	convertir(subcadena(f, 1, 4), iAnio, error)
+	si NO Error entonces
+		Convertir(Subcadena(f, 5, 2), imes, Error)
+		si No error entonces
+			convertir(Subcadena(f, 7, 2), iDia, error)
+			si NO error entonces
+				cargarCadena(mes, f)
+				si ianio > 1500 entonces
+					si iMes >= 1 y iMes <= 12 entonces
+						si iDia >= 1 y iDia <= mes[imes] entonces
+							Fválida <-- verdadero
+						sino
+							Fválida <-- falso
+						fsi
+					sino
+						Fvalida <-- falso
+					fsi
+				sino
+					fvalida <-- falso
+				fsi
+			sino
+				Fvalida <-- falso
+			fsi
+		sino
+			Fvalida <-- falso
+		fsi
+	sino
+		Fvalida <-- falso
+	Fsi
+Fproced
+
+proced CargarCadena(ref Mes: arreglo[12] de enteros, val F:Tfecha)
+	Var local: iAnio: entero, error: lógico
+	Convertir(Subcadena(f, 1, 4), ianio, error)
+	si (iAnio resto 400 = 0) o (iAnio resto 4 = 0 y iAnio resto 100 != 0) entonces
+		m[2] <-- 29
+	sino
+		m[2] <-- 28
+	fsi
+	m[1] <-- 31; m[3] <-- 31; m[5] <-- 31; m[7] <-- 31; M[8] <-- 31; M[10] <-- 31; M[12] <-- 31
+	M[4] <-- 30; m[6] <-- 30; m[9] <-- 30; m[11] <-- 30
+Fproced
+
+proced SumarDias(ref F:Tfecha, val n:entero)
+	Var local: iDia, iMes, iAnio, v: entero, error: lógico
+	Convertir(subcadena(f, 1, 4), ianio, error)
+	Convertir(Subcadena(f, 5, 2), imes, error)
+	Convertir(Subcadena(f, 7, 2), iDia, error)
+	Si n > 0 entonces
+		iDia <-- iDia + n
+		mientras iDia > CantDias(iMes, ianio) hacer
+			iDia <-- iDia - cantDias(imes, ianio)
+			imes <-- imes + 1
+			Si iMes = 13 entonces
+				ianio <-- ianio + 1
+				imes <-- 1
+			fsi
+		fmientras
+	sino
+		v <-- n * (- 1)
+		mientras v > 0 hacer
+			iDia <-- iDias - 1
+			Si iDia = 0 entonces
+				iMes <- imes - 1
+				si imes = 0 entonces
+					ianio <-- ianio - 1
+					iMes <-- 12
+				fsi
+				iDia <-- cantdias(imes, ianio)
+			Fsi
+			v <-- v - 1
+		fmientras
+	fsi
+	f <-- str(ianio)
+	si imes < 10 entonces
+		f <-- f + '0' + str(imes)
+	sino
+		f <-- f + str(imes)
+	fsi
+	si iDia < 10 entonces
+		f <-- f + '0' + str(idia)
+	sino
+		f <-- f + str(idia)
+	fsi
+Fproced
+
+proced FconvertirtFechaFlegible(ref f1: tfecha, ref f2:flegible)
+	f2 <-- subcadena(f1, 7, 2) + '/' + subcadena(f1, 5, 2) + '/' + subcadena(f1, 1, 4)
+Fproced
+
+Proced FconvertirFLegibleTfecha(ref Fent:Flegible, Fsal: Tfecha, ref error:lógico)
+	var local: iAnio, iMes, iDia: entero, error: lógico
+	Convertir(subcadena(fent, 7, 4), ianio, error)
+	si NO Error entonces
+		convertir(Subcadena(Fent, 4, 2), imes, error)
+		si No error entonces
+			Convertir(Subcadena(fent, 1, 2), iDia, error)
+			si No error entonces
+				Fsal <-- subcadena(fent, 7, 4) + subcadena(fent, 4, 2)+ subcadena(fent, 1, 2)
+			fsi
+		fsi
+	fsi
+Fproced
+
+Funcion FdiferenciaDias(ref F1, F2: Tfecha): entero
+	Var local: diaMayor, diaMenor: entero
+	diaMayor <-- superjulianocadena(f1)
+	diaMenor <-- superjulianocadena(f2)
+	Fdifrerenciadias <-- DiaMayor - DiaMenor
+FFunc
+
+Func superJulianoCadena(ref F:tfecha): entero
+	Var local: diaAux, mesAux, anioAux, iDia, iMes, iAnio: entero, error: lógico
+	Convertir(Subcadena(f, 1, 4), iAnio, error)
+	Convertir(Subcadena(f, 5, 2), imes, error)
+	convertir(Subcadena(f, 7, 2), iDia, error)
+	diaAux <-- 0
+	mesAux <-- 1
+	anioAux <-- 1
+	Mientras anioAux < iAnio hacer
+		si EsBisiesto(anioAux) entonces
+			diaAux <-- diaAux + 366
+		sino
+			diaAux <-- diaAux + 365
+		fsi
+		anioAux <-- anioAux + 1
+	fmientras
+	Mientras mesAux < imes hacer
+		diaAux <-- diaAux + cantdias(mesAux, ianio)
+		mesAux <-- mesAux + 1
+	Fmientras
+	diaAux <-- diaAux + idia
+	SuperjulianoCadena <-- diaAux
+Ffunc
+
+TDA Fecha
+
+Tfecha = Registro
+	dia: entero
+	mes: entero
+	anio: entero
+FReg
+
+Func Fdia(ref F:Tfecha): entero
+	Fdia <-- f.dia
+Ffunc
+
+Func Fmes(ref F:Tfecha): entero
+	Fmes <-- f.mes
+Ffunc
+
+Func Fanio(ref F:Tfecha): entero
+	Fanio <-- f.anio
+FFunc
+
+Proced SumarDias(ref t:Tfecha, val n:Entero)
+	var local: v: entero
+	Si n > 0 entonces
+		f.dia <-- f.dia + n
+		mientras f.dia > Cantdias(f.mes, f.anio) hacer
+			f.dia <-- f.dia - cantdias(f.mes, f.anio)
+			f.mes <-- f.mes + 1
+			si f.mes = 13 entonces
+				f.anio <-- f.anio + 1
+				f.mes <-- 1
+			fsi
+		fmientras
+	sino
+		v <-- n * (- 1)
+		mientras n > 0 hacer
+			f.dia <-- f.dia - 1
+			si f.dia = 0 entonces
+				f.mes <-- f.mes - 1
+				si f.mes = 0 entonces
+					f.anio <-- f.anio - 1
+					f.mes <-- 12
+				fsi
+				f.dia <-- cantdias(f.mes, f.anio)
+			fsi
+			v <-- v - 1
+		fmientras
+	fsi
+Fproced
+
+Func CantDias(Val m, a:entero): entero
+	var Local: dias: entero
+	si m = 4 o m = 6 o m = 9 o m = 11 entonces
+		dias <-- 30
+	sino
+		Si m = 2 entonces
+			si EsBisiesto(a) entonces
+				dias <-- 29
+			sino
+				dias <-- 28
+			fsi
+		sino
+			dias <-- 31
+		fsi
+	fsi
+Ffunc
+
+Func EsBisiesto(val a:entero): lógico
+	var local: es: lógico
+	Es <-- falso
+	Si (a Resto 400 = 0) o (a resto 4 = 0 y a resto 100 != 0) entonces
+		es <-- verdadero
+	fsi
+	EsBisiesto <-- Es
+Ffunc
+
+Func FValida(ref F:Tfecha): Lógico
+	var local: mes: arreglo[12] de entero
+	Cargar(mes, f)
+	si F.anio > 1500 entonces
+		si f.mes >= 1 y f.mes <= 12 entonces
+			si f.dia >= 1 y f.dia <= mes[f.mes] entonces
+				fValida <-- verdadero
+			sino
+				Fvalida <-- falso
+			fsi
+		sino
+			Fvalida <-- falso
+		fsi
+	sino
+		Fvalida <-- falso
+	fsi
+FFunc
+
+Proced Cargar(Ref Mes: arrelo[12] de entero, ref f:tfecha)
+	si (f.anio resto 400 = 0) o (f.anio resto 100 != 0 y f.anio resto 4 = 0) entonces
+		m[2] <-- 29
+	sino
+		m[2] <-- 28
+	fsi
+	m[1] <-- 31; m[3] <-- 31; m[5] <-- 31; m[7] <-- 31; m[8] <-- 31; m[10] <-- 31; m[12] <-- 31
+	m[4] <-- 30; m[6] <-- 30; m[9] <-- 30; m[11] <-- 30
+Fproced
+
+Func fDiferenciaDias(ref F1,F2: Tfecha): entero
+	Var Local: DiaMayor, DiaMenor: entero
+	DiaMayor <-- superjuliano(F1)
+	DiaMenor <-- superjuliano(F2)
+	FdiferenciaDias <-- DiaMayor - DiaMenor
+FFunc
+
+func superjuliano(ref F1:Tfecha): entero
+	var local: diaAux, mesAux, anioAux: entero
+	DiaAux <-- 0
+	MesAux <-- 1
+	AnioAux <-- 1
+	Mientras AnioAux < f.anio hacer
+		si EsBisiesto(AnioAux) entonces
+			diaAux <-- diaAux + 366
+		sino
+			diaAux <-- diaAux + 365
+		fsi
+	fmientras
+	mientras mesaux < f.mes hacer
+		diaAux <-- diaAux + cantDias(mesAux, f.anio)
+		mesAux <-- mesAux + 1
+	fmientras
+	diaAux <-- diaAux + f.dia
+	SuperJuliano <-- diaAux
+Ffunc
+
+Proced FConvertirFlegibleTfecha(val fent: Flegible, ref fsal:Tfecha, ref error: lógico)
+	Convertir(subcadena(fent, 7, 4), fsal.anio) (TENER EN CUENTA QUE ES FSAL.ANIO)
+	si No error entonces
+		Convertir(Subcadena(fent, 4, 2) fsal.mes, error)
+		si NO error entonces
+			Convertir(Subcadena(fent, 1, 2), fsal.dia, error)
+		fsi
+	fsi
+Fproced
+
+Proced FconvertirTfechaFlegible(Val fent: Flegible, ref Fsal:Tfecha, ref error: lógico)
+	si fent.dia < 10 entonces
+		fsal <-- '0' + str(fent.dia) + '/'
+	sino
+		fsal <-- str(fent.dia) + '/'
+	Fsi
+	si fent.mes < 10 entonces
+		fsal <-- fsal + '0' + str(fent.mes) + '/'
+	sino
+		fsal <-- fsal + str(fent.mes) + '/'
+	fsi
+	fsal <-- fsal + str(fent.anio)
+Fproced
+
+proced FMayor(ref F1,F2:Tfecha): lógico
+	si f1.anio > f2.anio entonces
+		fmayor <-- verdadero
+	sino
+		si f1.anio < f2.anio entonces
+			fmayor <-- falso
+		sino
+			si f1.mes > f2.mes entonces
+				fmayor <-- verdadero
+			sino
+				si f1.mes < f2.mes entonces
+					fmayor <-- falso
+				sino
+					si f1.dia > f2.dia entonces
+						fmayor <-- verdadero
+					sino
+						fmayor <-- falso
+					fsi
+				fsi
+			fsi
+		fsi
+	fsi
+Fproced
+
+Gregoriano cadena
+
+tfecha = cadena[8] // 'aaaammdd'
+
+Func Fdia(ref f:Tfecha): entero
+	Var local: iDia: entero, error: Lógico
+	convertir(subcadena(f, 7, 2), iDia, error)
+	Fdia <-- iDia
+Ffunc
+
+Func Fmes(ref F:Tfecha): entero
+	Var local: imes: entero, error: lógico
+	Convertir(Subcadena(f, 5, 2), imes, error)
+	Fmes <-- imes
+FFunc
+
+Func Fanio(ref F:Tfecha): entero
+	Var local: ianio: entero, error: Lógico
+	Convertir(Subcadena(f, 1, 4), ianio, error)
+	Fanio <-- ianio
+FFunc
+
+func Fmayor(ref F1, F2:Tfecha): lógico
+	Fmayor <-- f1 > f2
+FFunc
+
+Func Fvalida(ref F:Tfecha): lógico
+	Var local: mes: arreglo[12] de entero, ianio, imes, idia: entero
+	Convertir(Subcadena(f, 1, 4), ianio, error)
+	si No error entonces
+		Convertir(Subcadena(f, 5, 2), imes, error)
+		si No error entonces
+			Convertir(Subcadena(f, 7, 2), idia, eror)
+			si No error entonces
+				CargarCadena(mes, f)
+				si ianio > 1500 entonces
+					si imes >= 1 y imes <= 12 entonces
+						si idia >= 1 y idia <= mes[imes] entonces
+							fvalida <-- verdadero
+						sino
+							fvalida <-- falso
+						Fsi
+					sino
+						fvalida <-- falso
+					fsi
+				sino
+					fvalida <-- falso
+				fsi
+			sino
+				fvalida <-- falso
+			fsi
+		sino
+			fvalida <-- falso
+		fsi
+	sino
+		fvalida <-- falso
+	fsi
+Fproced
+
+Proced CargarCadena(Ref Mes: arreglo[12] de entero, val f:tfecha)
+	Var local: ianio: entero, error: Lógico
+	Convertir(Subcadena(f, 1, 4), ianio, error)
+	si (iAnio resto 400 = 0) o (iAnio Resto 4 = 0 y iAnio Resto 100 != 0) entonces
+		m[2] <-- 29
+	sino
+		m[2] <-- 28
+	fsi
+	m[1] <-- 31; m[3] <-- 31; m[5] <-- 31; m[7] <-- 31; m[8] <-- 31; m[10] <-- 31; m[12] <-- 31
+	m[4] <-- 30; m[6] <-- 30; m[9] <-- 30; m[11] <-- 31
+Fproced
+
+proced SumarDias(ref F:Tfecha, val n:entero)
+	Var local: iDia, iMes, iAnio, v: entero, error: lógico
+	Convertir(subcadena(f, 1, 4), ianio, error)
+	Convertir(subcadena(f, 5, 2), imes, error)
+	Convertir(Subcadena(f, 7, 2), idia, error)
+	Si n > 2 entonces
+		idia <-- idia + n
+		mientras idia > cantdias(imes, ianio) hacer
+			idia <-- idia - cantdias(imes, ianio)
+			imes <-- imes + 1
+			si imes = 13 entonces
+				ianio <-- ianio + 1
+				imes <-- 1
+			fsi
+		Fmientras
+	sino
+		v <-- n * (-1)
+		mientras v > 0 entonces
+			idia <-- idia - 1
+			si idia = 0 entonces
+				imes <-- imes - 1
+				si imes = 0 entonces
+					ianio <-- ianio - 1
+					imes <-- 12
+				fsi
+				idia <-- cantdias(imes, ianio)
+			fsi
+			v <-- v - 1
+		fmientras
+	fsi
+	f <-- str(ianio)
+	si imes < 10 entonces
+		f <-- f + '0' + str(imes)
+	sino
+		f <-- f + str(imes)
+	fsi
+	si idias < 10 entonces
+		f <-- f + '0' + str(idia)
+	sino
+		f <-- f + str(idia)
+	fsi
+Fproced
+
+proced FcobvertirFechaFLegible(ref F1, F2: Flegible)
+	F2 <-- subcadena(f1, 7, 2) + '/' + subcadena(f1, 5, 2) + '/' + subcadena(f1, 1, 4)
+FProced
+
+Proced FconvertirFlegibletFecha(ref fent: flegible, ref fsal:tfecha, ref error: lógico)
+	var local: ianio, imes, idia: entero
+	Convertir(Subcadena(fent, 7, 4), iAnio, error)
+	si No error entonces
+		Convertir(Subcadena(fent, 4, 2), imes, error)
+		si NO error entonces
+			Convertir(Subcadena(fent, 1, 2), idia, error)
+			si No error entonces
+				fsal <-- subcadena(fent, 7, 4) + subcadena(4, 2) + subcadena(1, 2)
+			fsi
+		fsi
+	fsi
+Fproced
+
+Func FdiferenciaDias(ref f1, f2:Tfecha): entero
+	Var Local: DiaMayor, diaMenor: entero
+	diamayor <-- superjulianoCadena(f1)
+	diamenor <-- superjulianoCadena(f2)
+	FdiferenciaDias <-- diamayor - diamenor
+Ffunc
+
+Func superJulianoCadena(ref f:Tfecha): entero
+	Var local: diaAux, mesAux, anioAux, ianio, imes, idia: entero
+	Convertir(Subcadena(f, 1, 4), ianio, error)
+	Convertir(Subcadena(f, 5, 2), imes, error)
+	Convertir(subcadena(f, 7, 2), idia, error)
+	diaAux <-- 0
+	mesAux <-- 1
+	anioAux <-- 1
+	Mientras anioAux < ianio hacer
+		si esbisiesto entonces
+			diaaux <-- diaaux + 366
+		sino
+			diaaux <-- diaaux + 365
+		fsi
+	fmientras
+	mientras mesaux < imes hacer
+		diaaux <-- diaaux + cantdias(mesaux, ianio)
+		mesaux <-- mesaux + 1
+	fmientras
+	diaaux <-- diaaux + idia
+	superjulianocadena <-- diaAux
+Ffunc

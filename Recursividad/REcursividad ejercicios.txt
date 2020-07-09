@@ -1,0 +1,71 @@
+Función Multiplicación (Val Z,V: entero): entero
+	Si z < 0 y v < 0 entonces
+		z <-- z*(-1)
+		v <-- v*(-1)
+	Sino
+		Si v<0 entonces
+			v <-- v*(-1)
+			z <-- z*(-1)
+		Fsi
+	Fsi
+	Si V > 0 entonces
+		Mult <-- z + Mult(z,v-1)
+	Sino
+		Mult <-- 0
+	Fsi
+Ffunción
+
+Pre{q=0 y r=0}
+Proced RestoYCociente(Val a,b: enteros, ref q,r: entero)
+	Si a<0 y b<0 entonces
+		a <-- a*(-1)
+		b <-- b*(-1)
+	Sino 
+		si a<0 entonces
+			b <-- b*(-1)
+			a<--a*(-1)
+		Fsi
+	Fsi
+	si a>=MODULO(b) y b!=0 entonces
+		Si b>0 entonces
+			q<-- 1 + restoycociente(a-b,b)
+		sino
+			q<-- 1 + restoycociente(a+b,b)
+		fsi
+	Sino 
+		q<-- 0
+		r <-- a
+	Fsi
+Precond{a=b=0}
+Proced ParesDeNum (Val n:entero, ref a,b:entero)
+	si a=b=0 entonces
+		si n<0 entonces
+			b <-- -1
+			a <-- n+1
+		sino
+			a <-- 1
+			b <-- n-1
+		fsi
+	Fsi
+	Si a <= b entonces
+		Mostrar("(a,b)")
+		a <-- a+1
+		b <-- b-1
+		ParesDeNum(n, a, b)
+	Fsi
+FProced
+Precond{suma=0, promedio=0, cantidad=0}
+Proced Promedio (Ref arr: Arreglo[Max] de reales, Val Tope, ref cant: entero, Ref suma, prom:Reales)
+	Si Tope > 0 entonces
+		Si Cant = 0 entonces
+			cant <-- 1
+		Fsi
+		Si cant < Tope entonces
+			Suma <-- Arr[cant]+suma
+			Promedio(arr, tope, cant+1, suma, prom)
+		Sino
+			suna <-- arr[cant]+suma
+			Prom <-- suma/cant
+		Fsi
+	Fsi
+			

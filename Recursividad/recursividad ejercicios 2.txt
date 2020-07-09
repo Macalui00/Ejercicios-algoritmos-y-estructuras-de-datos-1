@@ -1,0 +1,56 @@
+proced posicionespares
+	Si tope>0 entonces
+		si pos = o entonces
+			PosicionesPares(arr,tope,pos+1)
+		Fsi
+		Si Pos <= tope entonces
+			Si pos resto 2 = 0 entonces
+				mostrar(Arr[pos])
+			Fsi
+			PosicionesPares(arr,tope,pos+1)
+		Fsi
+	Fsi
+Fproced
+proced ProductoEscalar
+	si tope1= tope2 entonces
+		Si i= 0 entonces
+			ProductoEscalar(A1, A2, Tope1, Tope2, Prod, i+1)
+		Sino
+			si i < tope entonces
+				ProductoEscalar(A1, A2, Tope1, Tope2, Prod, i+1)
+				prod <-- A1[i]*A2[i] + prod
+			Sino
+				Si tope = i entonces
+					prod <-- A1[i]*A2[i] + prod
+				Fsi
+			Fsi
+		Fsi
+	Fsi
+Fproced
+PRE{inicio=1, tope >0}
+Función BusquedaBinaria(Ref arr: Arreglo[Max] de enteros, val ord: caracter, val tope, 
+							inicio, elem: entero): lógico
+	Var local: medio
+		si inicio < = tope entonces
+			medio <-- (inicio+medio) div 2
+			si arr[medio] = elem entonces
+				existe <-- verdadero
+			Sino
+				Si ord = A entonces
+					si arr[medio] > elem entonces
+						BusquedaBinaria <-- BusquedaBinaria(arr, ord, medio-1, inicio, elem)
+					sino
+						BusquedaBinaria <-- BusquedaBinaria(arr, ord, tope, medio+1)
+					fsi
+				sino
+					Si arr[medio] > elem entonces
+						BusquedaBinaria <-- BusquedaBinaria(arr, ord, tope, medio+1)
+					sino 
+						BusquedaBinaria <-- BusquedaBinaria(arr, ord, medio-1, inicio)
+					fsi
+				Fsi
+			Fsi
+		sino
+			existe <-- falso
+		Fsi
+FFuncion

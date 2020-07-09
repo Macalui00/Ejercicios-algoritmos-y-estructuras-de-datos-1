@@ -1,0 +1,447 @@
+Realizar el alta o baja de un empleado. arch original no ordenado, para dar de baja o alta a un empleado la
+seccion es uno de los datos a solicitar. una vez hechas las altas y bajas armar un nuevo archivo secuencial 
+de salida con los datos actualizados y ordenados por sección
+
+Archivo_Empleados
+	Reg_empleado = reg
+		LegajoEmpleado: cadena[4]
+		Nombre: cadena[30]
+		SueldoBasico: entero
+		Seccion: cadena[10]
+	freg
+Tclave : cadena[10]
+Tdato = reg
+    Clave: Tclave
+    Lempl: Tlista De Tdatito
+Freg
+Tdatito = reg
+    LegajoEmpleado: cadena[4]
+    Nombre: Cadena[30]
+    SueldoBasico: entero
+Freg
+
+Inicio
+	ArchE: Archivo de Reg_empleado
+	ArchA: archivo de Reg_empleado
+	RegE: registro de reg_empleado
+	L:Tlista De Tdato
+	Error: lógico
+	Cargar(L, error)
+	Si No error entonces
+		Si No error entonces
+			CargarArch(L)
+		sino
+			Mostrar("Espacio insuficiente")
+	Sino
+		Mostrar("Espacio Insuficiente")
+	Fsi
+Fin
+
+proced Cargar(Ref L:Tlista, ref Error: lógico)
+	Var local: Dato:Tdato, Datito:Tdatito, Existe: lógico
+	Abrir(ArchE), E, Secuencial
+	Lcrear(L)
+	Leer(ArchE, RegE)
+	Error <-- falso
+	Mientras No Fin(archE) y no error hacer
+		Lbuscarordenado(l, RegE.seccion, existe)
+		Si Existe entonces
+			Linfo(L, Dato)
+			BuscarEmpleado(Dato.lempl, RegE.LegajoEmpleado, existe)
+			Si Existe entonces
+				Mostrar("Empleado repetido")
+			Sino
+				Si No lllena(Dato.Lempl) entonces
+					ArmarDatito(RegE, Datito)
+					Linsertarfin(Dato.Lempl, Datito)
+					Lmodificar(L, Dato)
+				Sino
+					Error <-- verdadero
+				fsi
+			fsi
+		sino
+			Si No lllena(L) entonces
+				ArmarDato(RegE, Dato, error)
+				Si no error entonces
+					Linsertarorden(L, Dato)
+				fsi
+			sino
+				Error <-- verdadero
+			fsi
+		Fsi
+		Leer(ArchE, RegE)
+	Fmientras
+	Cerrar(ArchE)
+fin
+
+Proced BuscarEmpleado(Ref L:tlista, Val legajo, Ref Existe: lógico)
+	Existe <-- falso
+	si no Lvacia(L) entonces
+		lppio(L)
+		Linfo(L, datito)
+		Si Datito.legajoEmpleado = legajo entonces
+			existe <-- verdadero
+		sino
+			Lsig(L)
+		fsi
+		Mientras No lfin(L) y No existe hacer
+			linfo(L, Datito)
+			Si datito.legajoEmpleado = Legajo entonces
+				Existe <-- verdadero
+			sino
+				Lsig(L)
+			Fsi
+		Fmientras
+	fsi
+Fproced
+
+Proced ArmarDatito(Val RegE: registro de Reg_Empleado, Ref Datito: Tdatito)
+	datito.legajoempleado <-- Rege.legajoempleado
+	datito.Nombre <-- Rege.Nombre
+	datito.SueldoBasico <-- Rege.SueldoBasico
+Fproced
+
+proced ArmarDato(val RegE: registro de Reg_empleado, ref Dato: Tdato, ref error: lógico)
+	Dato.clave <-- RegE.sección
+	Lcrear(Dato.lempl)
+	ArmarDatito(RegE, Datito)
+	Si no lllena(Dato.lempl) entonces
+		Linsertarfin(Dato.lempl, datito)
+	sino
+		error <-- verdadero
+	fsi
+Fproced
+proced Actualizar(Ref L: Tlista, Ref error: lógico)
+	revisarfindatos(haydatos)
+	Mientras haydatos  y no error hacer
+		obtenerMovimiento(Mov)
+		Segun Mov hacer
+			'A': alta(L, error)
+			'B': Baja(L)
+			otros: mostrar("Movimiento erroneo")
+		Fsegun
+		RevisarfinDatos(HayDatos)
+	Fmientras
+Fproced
+Proced Alta(ref L:Tlista, ref Error: lógico)
+	IngresoSeccion(Seccion)
+	Lbuscarordenado(L, sección, existe)
+	Si Existe entonces
+		Linfo(L, Dato)
+		IngresoLegajo(Legajo)
+		BuscarEmpleado(Dato.lempl, Legajo, existe)
+		Si Existe entonces
+			Mostrar("Empleado ya existente")
+		sino
+			Si no lllena(Dato.lempl) entonces
+				ingresodatos(datito)
+				Linsertarfin(Dato.lempl, datito)
+				lmodificar(L, dato)
+			sino
+				Error <-- verdadero
+			fsi
+		fsi
+	sino
+		Mostrar("Sección equivocada")
+	Fsi
+Fproced
+Proced Baja(Ref L:Tlista)
+	ingresoSeccion(Seccion)
+	Lbuscarordenado(L, seccion, existe)
+	Si Existe entonces
+		Linfo(L, dato)
+		IngresoLegajo(Legajo)
+		Buscarempleado(Dato.lempl, legajo, existe)
+		Si existe entonces
+			LBorrarActual(Dato.lempl)
+			Lmodificar(L, Dato)
+		sino
+			Mostrar("Empleado inexistente")
+		fsi
+	sino
+		Mostrar("Seccion inexistente")
+	fsi
+Fproced
+
+Proced CargarArch(Ref L:Tlista)
+	Var Local: RegA: registro de Reg_empleado
+	Crear(ArchA), S, Secuencial
+	si no lvacia(L) entonces
+		lppio(L)
+		Linfo(L, Dato)
+		TratarDato(Dato.clave, Dato.Lempl)
+		Lsig(L)
+		Mientras No Lfin(L) hacer
+			Linfo(L, Dato)
+			TratarDato(Dato.clave, Dato.lempl)
+			Lsig(L)
+		Fmientras
+	Fsi
+Fproced
+
+Proced TratarDato(val Seccion: cadena[10], Ref L:Tlista)
+	var local: datito: tdatito, RegA: registro de Reg_empleado
+	Si no lvacia(L) entonces
+		Lppio(L)
+		linfo(L, Datito)
+		ArmarRegistro(Datito, Sección, RegA)
+		Grabar(ArchA, RegA)
+		Lsig(L)
+		Mientras No lfin(L) hacer
+			Linfo(L, Datito)
+			ArmarRegistro(Datito, Sección, RegA)
+			Grabar(ArchA, regA)
+			Lsig(L)
+		Fmientras
+	Fsi
+Fproced
+
+Proced ArmarRegistro(val Datito: tdatito, val Sección: cadena[10], ref RegA: registro de Reg_empleado)
+	RegA.legajoEmpleado <-- Datito.legajoEmpleado
+	RegA.Nombre <-- Datito.Nombre
+	RegA.SueldoBasico <-- RegA.SueldoBasico
+	RegA.seccion <-- seccion
+Fproced
+		
+----------------------------------------------
+
+Arch_vuelos
+    Reg_vuelos = reg
+	Destino: Cadena[10]
+	Fecha:Tfecha
+	Vuelo
+	Capacidad: entero
+	Cantocupadas: entero
+    Freg
+Arch_Pasajeros
+     Reg_p = reg
+	Destino: cadena[10]
+	Fecha: Tfecha (Vuelo)
+	Vuelo
+	Documento: entero
+	Cod_op
+	FechaRoV:Tfecha
+     Freg
+Se reserva un lugar en determinado vuelo de una fecha determinada. No se pueden reservar con menos de 15 dias
+de anticipación.
+Venta de pasaje PREVIAMENTE reservado
+Pasada la fecha de reserva, borrar del sistema (Cuando tienen mas de 7 dias y no han sido confirmadas)
+
+ListaVuelos ORDENADA por DESTINO, FECHA, VUELO
+TDato = reg
+    Clave = Tclave
+    Capacidad
+    CantOcupados
+    Lventas: Tlista de RegPasajero
+    LReserva: Tlista de RegPasajero
+Freg
+
+Tclave = reg
+    Destino
+    Fecha
+    Vuelo
+Freg
+RegPasajero = reg
+    Documento:
+    FechaRoV:
+Freg
+
+Inicio
+	ArchV: registro de Reg_Vuelos
+	ArchP: Registro de Reg_pasajeros
+	ArchA: registro de Reg_vuelos
+	L:Tlista De Tdato
+	Error: lógico
+	Error <-- falso
+	Cargar(L, error)
+	Si No error entonces
+		Actualizar(L, error)
+		Si No error entonces
+			ArmarArchivo(L)
+		sino
+			mostrar("Espacio insuficiente")
+		fsi
+	sino
+		mostrar("Espacio insuficiente")
+	fsi
+Fin
+
+proced Cargar(Ref L:Tlista, ref Error: lógico)
+	Var local: regV: registro de Reg_Vuelos, Dato:Tdato, clave: tclave
+	Lcrear(L)
+	Abrir(ArchV), E, secuencial
+	leer(ArchV, regV)
+	Mientras no fin(ArchV) y No error hacer
+		ArmarClave(Regv, clave)
+		Lbuscarordenado(L, clave, existe)
+		si Existe entonces
+			Mostrar("Vuelo ya ingresado")
+		Sino
+			ArmarDato(Regv, Dato)
+			Si No Lllena(L) entonces
+				Linsertarorden(L, RegV, 'A')
+			sino
+				Error <-- verdadero
+			fsi
+		Fsi
+	Fmientras
+Fproced
+
+Proced ArmarClave(val RegV, ref Clave)
+	Clave.Destino <-- RegV.destino
+	clave.fecha <-- Regv.fecha
+	Clave.vuelo <-- regv.vuelo
+Fproced
+
+Proced ArmarDato(Val RegV, Ref Dato)
+	Dato.clave.destino <-- Regv.destino			
+	Dato.clave.fecha <-- Regv.fecha
+	Dato.Clave.vuelo <-- regv.vuelo
+	Dato.capacidad <-- Regv.capacidad
+	Dato.cantocupados <-- Regv.cantocupados
+	Lcrear(Lventas)
+	Lcrear(Lreservas)
+Fproced
+
+proced Actualizar(Ref L: Tlista, ref error: lógico)
+	Var local: RegP: registro de Reg_p
+	Abrir(ArchP), E, secuencial
+	Leer(ArchP, regP)
+	Mientras No fin(ArchP) y no error hacer
+		ArmarClave(Regp, Clave)
+		lbuscarordenado(L, Clave, existe)
+		Si Existe entonces
+			Segun RegP.Cod_op hacer
+				R: Reservar(l, regP, error)
+				V: venta(L, RegP, error)
+				Otros: Mostrar("Codigo invalido")
+			Fsegún
+		sino
+			Mostrar("Vuelo erroneo")
+		fsi
+		Leer(ArchP, regP)
+	Fmientras
+	Cerrar(ArchP)
+Fproced
+
+proced Reservar(Ref L:Tlista, val RegP, Ref Error: lógico)
+	Linfo(L, Dato)
+	Si Dato.capacidad - Dato.cantocupados > 0 entonces
+		si DiferenciaDias(Dato.clave.fecha, RegP.fecha) > 15 entonces
+			ArmarDatito(RegP, datito)
+			Buscarpasajero(Dato.lreserva, Dato.documento, existe)
+			Si no existe entonces
+				Si No lllena(Dato.lreserva) entonces
+					Dato.cantocupados <-- dato.cantidadocupados + 1
+					Linsertarfin(Dato.lreserva, datito)
+					Lmodificar(L, dato)
+				sino
+					Error <-- verdadero
+				fsi
+			sino
+				mostar("Reserva ya realizada")
+			fsi
+		sino
+			BuscarotroVueloF(L, Regp.tfecha, existe)
+			Si existe entonces
+				Linfo(L, Dato)
+				ArmarDatito(RegP, Datito)
+				Si No lllena(Dato.Lreserva) entonces
+					Dato.Cantocupados <-- Dato.cantocupados + 1
+					Linsertarfin(Dato.lreserva, Datito)
+					Lmodificar(L, dato)
+				sino
+					error <-- verdadero
+				fsi
+			sino
+				mostrar("No hay vuelos disponibles")
+			fsi
+		fsi
+	sino
+		BuscarOtroVueloC(L, Regp.destino, existe)
+		Si Existe entonces
+			Linfo(L, Dato)
+			ArmarDatito(RegP, datito)
+			Si no Lllena(Dato.lreserva) entonces
+				Dato.cantocupados <-- dato.cantocupados + 1
+				Linsertarfin(Dato.lreserva, datito)
+				lmodificar(L, Dato)
+			Sino
+				Error <-- verdadero
+			fsi
+		sino
+			Mostrar("No hay vuelos disponibles")
+		fsi
+	Fsi
+FProced
+		
+Proced venta(Ref L: Tlista,Val RegP, Ref error: lógico)
+	Linfo(L, Dato)
+	BuscarPasajero(Dato.Lreserva, regp.documento, existe)
+	Si Existe entonces
+		linfo(Dato.lreserva, datito)
+		Lborraractual(Dato.lreserva)
+		Si No lllena(Dato.lventas) entonces
+			Linsertarfin(dato.lventas, Datito)
+			Lmodificar(L, dato)
+		sino
+			Error <-- verdadero
+		fsi
+	Sino
+		Mostrar("Reserva inexistente, no se puede realizar compra")
+	fsi
+Fproced
+
+Proced ArmarArchivo(Ref L:Tlista)
+	Crear(ArchA)
+	Si No lvacia(L) entonces
+		lppio(L)
+		Linfo(L, Dato)
+		TratarDato(Dato)
+		Lsig(L)
+		Mientras No Fin(ArchA) hacer
+			Linfo(L, dato)
+			TratarDato(Dato) (FALTA HACER)
+			Lsig(L)
+		Fmientras
+	fsi
+	Cerrar(ArchA)
+Fproced
+
+Arch_Pasajeros
+     Reg_p = reg
+	Destino: cadena[10]
+	Fecha: Tfecha (Vuelo)
+	Vuelo
+	Documento: entero
+	Cod_op
+	FechaRoV:Tfecha
+     Freg
+
+TDato = reg
+    Clave = Tclave
+    Capacidad
+    CantOcupados
+    Lventas: Tlista de RegPasajero
+    LReserva: Tlista de RegPasajero
+Freg
+
+Tclave = reg
+    Destino
+    Fecha
+    Vuelo
+Freg
+
+RegPasajero = reg
+    Documento:
+    FechaRoV:
+Freg
+
+Arch_vuelos
+    Reg_vuelos = reg
+	Destino: Cadena[10]
+	Fecha:Tfecha
+	Vuelo
+	Capacidad: entero
+	Cantocupadas: entero
+    Freg

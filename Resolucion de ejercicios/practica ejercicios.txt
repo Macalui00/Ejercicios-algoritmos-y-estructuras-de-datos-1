@@ -1,0 +1,386 @@
+ejercicio 3
+proced LongyFrec(Ref P:Tpila, ref L:Tlista, ref Error: Lógico)
+	Var local: Tclave: entero, existe: lógico, x: cadena[20]
+	Tdato = reg
+	     clave: Tclave
+	     frec: entero
+	Freg
+	Dato: Tdato
+	Lcrear(L)
+	Error <-- falso
+	Mientras No Pvacia y No error hacer
+		Si NO Pllena(L) entonces
+			Psacar(P, x)
+			Dato.clave <-- Longitud(x)
+			Lbuscarordenado(L, Dato.clave, Existe)
+			Si Existe entonces
+				Linfo(L, Dato)
+				Dato.frec <-- Dato.frec + 1
+				Lmodificar(L, Dato)
+			Sino
+				Dato.frec <-- 1
+				Linsertarorden(L, Dato, 'A')
+			Fsi
+		Sino
+			Error <-- verdadero
+		Fsi
+	Fmientras
+	si No Error entonces
+		Informe(L)
+	sino
+		Mostrar("Demasiadas Palabras")
+	Fsi
+Fproced
+
+Proced Informe(Ref L:Tlista)
+	Var local: Dato:Tdato
+	Si NO Lvacia(L) entonces
+		Lppio(L)
+		Linfo(L, Dato)
+		mostrar("Longitud:", Dato.clave, "Frecuencia:", Dato.frec)
+		Lsig(L)
+		Mientras No Lfin(L) hacer
+			Linfo(L)
+			mostrar("Longitud:", Dato.clave, "Frecuencia:", Dato.frec)
+			Lsig(L)
+		Fmientras
+	Fsi
+FProced
+Ingresar numeros enteros hasta fin de datos y mostrar los informes, uno con pares ordenados ASCENDENTEMENTE
+y otro con mayores a 100 en forma DESCENDENTE
+
+Inicio
+	Tclave: entero
+	Tdato = reg
+	     Clave:Tclave
+	Freg
+	Dato: TDato
+	Existe: lógico
+	n: entero
+	Continuar: lógico
+	Lpar, Lmayor: Tlista
+	Lcrear(Lpar)
+	Lcrear(Lmayor)
+	Revisarfindatos(Continuar)
+	Mientras Continuar y No Pllena(Lpar) y No Pllena(Lmayor) hacer
+		Mostrar("Ingrese número entero")
+		ingresar(n)
+		Dato.clave <-- n
+		Si n resto 2 = 0 entonces
+			Lbuscarordenado(Lpar, Dato.clave, existe)
+			Si No existe entonces
+				Linsertarorden(Lpar, Dato, 'A')
+			fsi
+		fsi
+		Si n > 100 entonces
+			Lbuscarordenado(Lmayor, Dato.clave, existe)
+			Si No Existe entonces
+				Linsertarorden(Lmayor, Dato, 'D')
+			fsi
+		fsi
+		Revisarfindatos(Continuar)
+	Fmientras
+	Si Continuar entonces
+		Mostrar("Demasiados numeros, espacio insuficiente")
+	Sino
+		informe(Lpar)
+		informe(Lmayor)
+	Fsi
+Fproced
+
+Lista de enteros ordenada ASCENDENTEMENTE generar Lista PAR ASCENDENTE e IMPAR DESCENDENTEMENTE
+Proced procesarlista(Ref L, Lpar, Limpar:Tlista, ref error:lógico)
+	Var local: Tclave: entero
+	Tdato = reg
+	     Clave: Tclave
+	Freg
+	Dato: Tdato
+	error <-- falso
+	Si No Lvacia(L) entonces
+		Lppio(L)
+		Linfo(L, Dato)
+		Si Dato.clave resto 2 = 0 entonces
+			Linsertarfin(Lpar, Dato)
+		sino
+			Linsertarppio(Limpar, Dato)
+		Fsi
+		Lsig(L)
+		Mientras No Lfin(L) y No Error hacer
+			Si NO Lllena(Lpar) y NO Lllena(Limpar) entonces
+				Linfo(L, Dato)
+				Si Dato.clave resto 2 = 0 entonces
+					Linsertarfin(Lpar, Dato)
+				Sino
+					Linsertarppio(Limpar, Dato)
+				fsi
+				Lsig(L)
+			Sino
+				Error <-- verdadero
+			Fsi
+		Fmientras
+		Si Error entonces
+			Mostrar("Demasiados elementos en la lista original")
+		sino
+			Mostrar("Pasaje exitoso")
+		fsi
+	sino
+		Mostrar("Lista original esta vacía")
+	fsi
+Fproced
+
+---------------------------------------------------------------------------------------------------------
+Ejercicio 5
+Tclave: entero
+Reg_term = Reg
+     Exp: entero
+     Coef: entero
+Freg
+Reg_Deriv = Reg
+     Clave: Tclave
+     Coef: entero
+Freg
+
+inicio
+	archP: archivo de Reg_Term
+	archD: archivo de Reg_Term
+	Term: registo de Reg_term
+	Deriv: registro de Reg
+	DerivarPolinomio()
+Fin
+proced DerivarPolinomio()
+	Var local: L:Tlista, existe:Lógico
+	Crear(ArchD)
+	Lcrear(L)
+	Abrir(ArchP)
+	Leer(ArchP, Term)
+	Mientras No Fin(ArchP) hacer
+		Si Term.Exp != 0 entonces
+			Deriv.clave <-- (Term.exp - 1)
+			Lbuscarordenado(L, Deriv.clave, existe)
+			Si existe entonces
+				Linfo(L, Deriv)
+				Deriv.coef <-- Deriv.coef + (Term.coef * Term.exp)
+				Lmodificar(L, Deriv)
+			sino
+				Deriv.coef <-- Term.coef * Term.exp
+				Linsertarorden(L, Deriv, 'D')
+			fsi
+		Fsi
+		Leer(ArchP, Term)
+	Fmientras
+	si No Fin(ArchP) entonces
+		Mostrar("Se ha llenado la lista")
+	Sino
+		Si NO Lvacia(L) entonces
+			Lppio(L)
+			Linfo(L, Deriv)
+			Term.exp <-- Deriv.Clave
+			Term.coef <-- Deriv.coef
+			Grabar(ArchD, Term)
+			Lsig(L)
+			Mientras No Lfin(L) hacer
+				Linfo(L, Deriv)
+				Term.exp <-- Deriv.clave
+				Term.coef <-- Deriv.coef
+				Grabar(ArchD, Term)
+				Lsig(L)
+			Fmientras
+		Fsi
+				
+	Fsi
+Fproced
+
+Ejercicio 6
+CMAX = 40
+Arch_Alum
+Reg_Alum = reg
+     Matricula: Cadena[6]
+     Nombre: Cadena[20]
+     Notas: Arreglo[CMAX] de enteros
+     Tope: entero
+Freg
+Arch_actual
+Reg_Alum = reg
+     Matricula: Cadena[6]
+     Nombre: Cadena[20]
+     Notas: Arreglo[CMAX] de enteros
+     Tope: entero
+Freg
+Tclave: cadena[6]
+Tdato = reg
+     Clave: Tclave
+     Nombre: Cadena[20]
+     Notas: Arreglo[CMAX] de enteros
+     Tope: entero
+Freg
+Inicio
+	ArchAl: archivo de Reg_Alum
+	ArchAc: Archivo de Reg_Alum
+	Alum: Registro de Reg_Alum
+	Dato: registro de Tdato
+	ActualizarAlumnos()
+Fin
+
+Proced ActualizarAlumnos()
+	Var local: L:Tlista, existe, aprobo: lógico, i: entero
+	Lcrear(L)
+	Crear(ArchAc)
+	Abrir(ArchAl)
+	Leer(ArchAl, Alum)
+	Mientras No Fin(ArchAL) y No Lllena(L) hacer
+		Dato.clave <-- Alum.Matricula
+		Lbuscarordenado(L, Dato.clave, existe)
+		si No Existe entonces
+			Si Alum.Tope = CMAX entonces
+				aprobo <-- verdadero
+				i <-- 1
+				mientras i <= Alum.Tope y aprobo hacer
+					Si Alum.Notas[i] < 4 entonces
+						aprobo <-- falso
+					fsi
+				fmientras
+				Si No aprobo entonces
+					Dato.Nombre <-- Alum.Nombre
+					Dato.Notas <-- Alum.Notas
+					Dato.Tope <-- Alum.Tope
+					Linsertarorden(L, Dato,'D')
+				Fsi
+			sino
+				Dato.Nombre <-- Alum.Nombre
+				Dato.Notas <-- Alum.Notas
+				Dato.Tope <-- Alum.Tope
+				Linsertarorden(L, Dato,'D')
+			fsi
+		fsi
+	Fmientras
+	Si No Fin(ArchAl) entonces
+		Mostrar("Demasiados elementos en el archivo")
+	sino
+		Si No Lvacia(L) entonces
+			Lppio(L)
+			Linfo(L, Dato)
+			Alum.Matricula <-- Dato.Clave
+			Alum.Nombre <-- Dato.Nombre
+			Alum.Notas <-- Dato.Notas
+			Alum.Tope <-- Dato.Tope
+			grabar(ArchAc, Alum)
+			Lsig(L)
+			Mientras No Lfin(L) hacer
+				Linfo(L, Dato)
+				Alum.Matricula <-- Dato.Clave
+				Alum.Nombre <-- Dato.Nombre
+				Alum.Notas <-- Dato.Notas
+				Alum.Tope <-- Dato.Tope
+				grabar(ArchAc, Alum)
+				Lsig(L)
+			Fmientras
+		Fsi
+	Fsi
+Fproced
+
+Ejercicio 7
+Proced MáximosDeColas(Ref L:Tlista de colas, Ref P:Tpila)
+	Var local: C:Tcola de enteros, x:entero
+	Pcrear(P)
+	Si No Lvacia(L) entonces
+		Lppio(L)
+		Linfo(L, C)
+		Csacar(C, x)
+		Max <-- x
+		Mientras No Cvacia(C) hacer
+			Csacar(C, x)
+			Si x > Max entonces
+				Max <-- x
+			fsi
+		Fmientras
+		Pponer(P, Max)
+		Lsig(L)
+		Mientras No Lfin(L) Y No Pllena(P) hacer
+			Lppio(L)
+			Linfo(L, C)
+			Csacar(C, x)
+			Max <-- x
+			Mientras No Cvacia(C) hacer
+				Csacar(C, x)
+				si x > Max entonces
+					Max <-- x
+				fsi
+			Fmientras
+			pponer(P, Max)
+			Lsig(L)
+		Fmientras
+	Fsi
+Fproced
+
+Ejercicio Segundo Parcial
+Proced MoverYordenar(Ref P:Tpila, Ref C:Tcola, Ref Error: Lógico)
+	Var local: Paux:Tpila, n:entero, L:Tlista, Existe:Lógico
+	TClave: entero
+	Tdato = Reg
+	    Clave: TClave
+	Freg
+	Dato: Tdato
+	Pcrear(Paux)
+	Ccrear(C)
+	Lcrear(L)
+	Error <-- falso
+	Si No Pvacia(P) entonces
+		Mientras No Pvacia(P) y No Error hacer
+			Si No Pllena(Paux) y No Lllena(L) entonces
+				psacar(P, n)
+				Lbuscarordenado(L, n, Existe)
+				Si No Existe entonces
+					Dato.Clave <-- n
+					Linsertarorden(L, Dato, 'A')
+				Fsi
+				pponer(Paux, n)
+			Sino
+				Error <-- verdadero
+			Fsi
+		Fmientras
+		Si No Error entonces
+			Si No Lvacia(L) entonces
+				Lppio(L)
+				Linfo(L, Dato)
+				n <-- Dato.Clave
+				Si No Cllena(C) entonces
+					Cponer(C, n)
+				sino
+					Error <-- verdadero
+				Fsi
+				Lsig(L)
+				Mientras No Lfin(L) y No Error hacer
+					Si NO Cllena(C) entonces
+						Linfo(L, Dato)
+						n <-- Dato.Clave
+						Cponer(C, n)
+						Lsig(L)
+					Sino
+						Error <-- verdadero
+					Fsi
+				Fmientras
+				Si No error entonces
+					Mientras NO Pvacia(Paux) y No Error hacer
+						Si No Pllena(P) entonces
+							Psacar(Paux, n)
+							Pponer(P, n)
+						sino
+							Error <-- verdadero
+						fsi
+					Fmientras
+					Si Error entonces
+						Mostrar("Demasiados elementos en la pila")
+					Fsi
+				Sino
+					Mostrar("Demasiados elementos en la lista")
+				Fsi
+			sino
+				Mostrar("Lista Vacia")
+			Fsi
+		Sino
+			Mostrar("Demasiados elementos en la pila")
+		fsi
+	sino
+		mostrar("Pila vacia")
+	Fsi
+Fproced
